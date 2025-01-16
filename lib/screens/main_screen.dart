@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:novel_starter/screens/novel_detail_screen.dart';
-import 'package:novel_starter/screens/novel_writing_screen.dart';
+import 'package:novel_starter/widgets/new_dialog.dart';
+import 'package:novel_starter/widgets/side_drawer.dart';
 
 class MainScreen extends StatelessWidget {
   MainScreen({super.key});
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text('소설 공유 사이트'),
         actions: [
@@ -17,8 +21,15 @@ class MainScreen extends StatelessWidget {
               // 검색 기능 구현 예정
             },
           ),
+          IconButton(
+            icon: Icon(Icons.menu),
+            onPressed: () {
+              _scaffoldKey.currentState?.openEndDrawer();
+            },
+          ),
         ],
       ),
+      endDrawer: SideDrawer(),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -90,12 +101,11 @@ class MainScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // 소설 작성 페이지로 이동
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => NovelWritingScreen(),
-            ),
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return NewDialog();
+            },
           );
         },
         child: Icon(Icons.add),

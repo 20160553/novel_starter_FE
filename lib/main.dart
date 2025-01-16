@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:novel_starter/screens/main_screen.dart';
-import 'package:novel_starter/screens/novel_detail_screen.dart';
 
 void main() {
   runApp(MyApp());
