@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:novel_starter/screens/login_screen.dart';
 import 'package:novel_starter/screens/novel_manage_screen.dart';
 
 class SideDrawer extends StatelessWidget {
-
   SideDrawer({super.key});
 
   @override
@@ -49,6 +49,13 @@ class SideDrawer extends StatelessWidget {
             title: Text('로그인'),
             onTap: () {
               // 로그인 클릭 시 동작
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      LoginScreen(),
+                ),
+              );
             },
           ),
           ListTile(
