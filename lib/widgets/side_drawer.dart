@@ -1,12 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:novel_starter/models/api_state.dart';
+import 'package:novel_starter/providers/viewmodels/user_viewmodel_provider.dart';
 import 'package:novel_starter/screens/login_screen.dart';
 import 'package:novel_starter/screens/novel_manage_screen.dart';
+import 'package:novel_starter/viewmodels/user_viewmodel.dart';
 
-class SideDrawer extends StatelessWidget {
-  SideDrawer({super.key});
+const DEFAULT_USERNAME = "메뉴";
+
+class SideDrawer extends ConsumerStatefulWidget {
+  const SideDrawer({super.key});
+
+  @override
+  ConsumerState<SideDrawer> createState() => _SideDrawerState();
+}
+
+class _SideDrawerState extends ConsumerState<SideDrawer> {
+  late final UserViewModel _userViewModel;
+  String username = DEFAULT_USERNAME;
+
+  @override
+  void initState() {
+    super.initState();
+    // UserViewModel을 여기서 초기화
+    _userViewModel = ref.read(userViewModelProvider.notifier);
+  }
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(userViewModelProvider, (previous, next) {
+      if (next is SuccessState) {
+        final newStr = (next as SuccessState).data?.username ?? DEFAULT_USERNAME;
+        setState(() {
+          username = newStr;
+        });
+      }
+    });
+
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -16,7 +46,7 @@ class SideDrawer extends StatelessWidget {
               color: Colors.blue,
             ),
             child: Text(
-              '메뉴',
+              username,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 24,
@@ -44,27 +74,28 @@ class SideDrawer extends StatelessWidget {
               );
             },
           ),
-          ListTile(
-            leading: Icon(Icons.login),
-            title: Text('로그인'),
-            onTap: () {
-              // 로그인 클릭 시 동작
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      LoginScreen(),
-                ),
-              );
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.logout),
-            title: Text('로그아웃'),
-            onTap: () {
-              // 로그아웃 클릭 시 동작
-            },
-          ),
+          if (username == DEFAULT_USERNAME)
+            ListTile(
+              leading: Icon(Icons.login),
+              title: Text('로그인'),
+              onTap: () {
+                // 로그인 클릭 시 동작
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LoginScreen(),
+                  ),
+                );
+              },
+            ),
+          if (username != DEFAULT_USERNAME)
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('로그아웃'),
+              onTap: () {
+                _userViewModel.logout();
+              },
+            ),
           ListTile(
             leading: Icon(Icons.settings),
             title: Text('설정'),

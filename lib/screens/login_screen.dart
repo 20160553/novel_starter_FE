@@ -31,7 +31,7 @@ class LoginScreen extends ConsumerWidget {
             TextField(
               controller: _usernameController,
               decoration: InputDecoration(
-                labelText: '이메일',
+                labelText: '아이디',
                 border: OutlineInputBorder(),
               ),
               keyboardType: TextInputType.emailAddress,
