@@ -6,7 +6,7 @@ import 'package:novel_starter/screens/login_screen.dart';
 import 'package:novel_starter/screens/novel_manage_screen.dart';
 import 'package:novel_starter/viewmodels/user_viewmodel.dart';
 
-const DEFAULT_USERNAME = "메뉴";
+const default_username = "메뉴";
 
 class SideDrawer extends ConsumerStatefulWidget {
   const SideDrawer({super.key});
@@ -17,20 +17,25 @@ class SideDrawer extends ConsumerStatefulWidget {
 
 class _SideDrawerState extends ConsumerState<SideDrawer> {
   late final UserViewModel _userViewModel;
-  String username = DEFAULT_USERNAME;
+  String username = default_username;
 
   @override
   void initState() {
     super.initState();
     // UserViewModel을 여기서 초기화
     _userViewModel = ref.read(userViewModelProvider.notifier);
+    final apiState = ref.read(userViewModelProvider);
+    apiState.when(loading: () {}, success: (data) {
+      username = data?.username ?? default_username;
+    }, error: (e) {});
   }
 
   @override
   Widget build(BuildContext context) {
     ref.listen(userViewModelProvider, (previous, next) {
       if (next is SuccessState) {
-        final newStr = (next as SuccessState).data?.username ?? DEFAULT_USERNAME;
+        final newStr = (next as SuccessState).data?.username ?? default_username;
+        print("newStr: $newStr");
         setState(() {
           username = newStr;
         });
@@ -74,7 +79,7 @@ class _SideDrawerState extends ConsumerState<SideDrawer> {
               );
             },
           ),
-          if (username == DEFAULT_USERNAME)
+          if (username == default_username)
             ListTile(
               leading: Icon(Icons.login),
               title: Text('로그인'),
@@ -88,7 +93,7 @@ class _SideDrawerState extends ConsumerState<SideDrawer> {
                 );
               },
             ),
-          if (username != DEFAULT_USERNAME)
+          if (username != default_username)
             ListTile(
               leading: Icon(Icons.logout),
               title: Text('로그아웃'),

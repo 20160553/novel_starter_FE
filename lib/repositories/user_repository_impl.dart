@@ -8,27 +8,12 @@ import 'package:novel_starter/models/user.dart';
 import 'package:novel_starter/services/api_service.dart';
 import 'package:novel_starter/utils/config.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:novel_starter/utils/utils.dart';
 
 class UserRepositoryImpl implements UserRepository {
   UserRepositoryImpl(this.apiService);
 
   final ApiService apiService;
   final FlutterSecureStorage _storage = FlutterSecureStorage();
-
-  @override
-  Future<void> createUser(String username, String password) async {
-    Map<String, dynamic> requestBody = {
-      'username': username,
-      'password': password
-    };
-
-    try {
-      await apiService.post('/user', jsonEncode(requestBody));
-    } catch (e) {
-      rethrow;
-    }
-  }
 
   @override
   Future<User> login(String username, String password) async {

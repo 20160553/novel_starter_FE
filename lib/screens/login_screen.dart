@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:novel_starter/providers/viewmodels/user_viewmodel_provider.dart';
+import 'package:novel_starter/screens/join_screen.dart';
 import 'package:novel_starter/viewmodels/user_viewmodel.dart';
 
 class LoginScreen extends ConsumerWidget {
-
   LoginScreen({super.key});
 
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  late final UserViewModel _userViewModel;    
+  late final UserViewModel _userViewModel;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     _userViewModel = ref.read(userViewModelProvider.notifier);
     ref.listen(userViewModelProvider, (prevState, newState) {
-      if (newState != null)
-        {Navigator.pop(context);}
+      if (newState != null) {
+        Navigator.pop(context);
+      }
     });
 
     return Scaffold(
@@ -65,7 +66,8 @@ class LoginScreen extends ConsumerWidget {
             TextButton(
               onPressed: () {
                 // 회원가입 화면으로 이동
-                print('회원가입 화면으로 이동');
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => JoinScreen()));
               },
               child: Text('회원가입'),
             ),
