@@ -3,12 +3,13 @@ import 'package:novel_starter/utils/config.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:novel_starter/utils/utils.dart';
 
-class ApiService {
+class ApiClient {
   Dio dio;
+  final String baseUrl;
   final FlutterSecureStorage _storage = FlutterSecureStorage();
 
-  ApiService() : dio = Dio(BaseOptions(
-    baseUrl: Config.apiBaseUrl,
+  ApiClient(this.baseUrl) : dio = Dio(BaseOptions(
+    baseUrl: baseUrl,
     connectTimeout: Duration(milliseconds: 5000),
     receiveTimeout: Duration(milliseconds: 3000),
   )) {

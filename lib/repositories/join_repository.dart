@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
 abstract interface class JoinRepository {
-  Future<void> join(String username, String password);
-  Future<bool> duplicatedCheck(String username);
+  Stream<User?>? get authStateChanges;
+  Future<void> join(String email, String password);
+  Future<bool> duplicatedCheck(String email);
 }

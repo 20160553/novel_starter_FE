@@ -6,3 +6,8 @@ final joinUsecaseProvider = Provider<JoinUsecase>((ref) {
   final joinRepository = ref.watch(joinRepositoryProvider);
   return JoinUsecase(joinRepository); 
 });
+
+final joinUsecaseFirestoreProvider = Provider<JoinUsecase>((ref) {
+  final joinRepository = ref.watch(joinRepositoryFirestoreProvider);
+  return JoinUsecase(joinRepository); 
+});

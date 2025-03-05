@@ -5,14 +5,14 @@ import 'package:dio/dio.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:novel_starter/repositories/user_repository.dart';
 import 'package:novel_starter/models/user.dart';
-import 'package:novel_starter/services/api_service.dart';
+import 'package:novel_starter/clients/api_client.dart';
 import 'package:novel_starter/utils/config.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class UserRepositoryImpl implements UserRepository {
   UserRepositoryImpl(this.apiService);
 
-  final ApiService apiService;
+  final ApiClient apiService;
   final FlutterSecureStorage _storage = FlutterSecureStorage();
 
   @override

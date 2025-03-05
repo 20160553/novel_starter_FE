@@ -5,6 +5,7 @@ import 'package:novel_starter/usecases/join_usecase.dart';
 import 'package:novel_starter/viewmodels/join_viewmodel.dart';
 
 final joinViewModelProvider = StateNotifierProvider<JoinViewModel, ApiState<Object?>>((ref) {
-  final JoinUsecase joinUsecase = ref.watch(joinUsecaseProvider);
+  // final JoinUsecase joinUsecase = ref.watch(joinUsecaseProvider);
+  final JoinUsecase joinUsecase = ref.watch(joinUsecaseFirestoreProvider);
   return JoinViewModel(joinUsecase);
 });

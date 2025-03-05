@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:novel_starter/constants/string.dart';
 import 'package:novel_starter/models/api_state.dart';
 import 'package:novel_starter/models/join_result.dart';
 import 'package:novel_starter/providers/viewmodels/join_viewmodel_provider.dart';
@@ -27,8 +29,8 @@ class _JoinScreen extends ConsumerState<JoinScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final flag = ref.watch(joinViewModelProvider.select((state) =>
-        state is SuccessState && state.data is UnDuplicatedUsername));
+    // final flag = ref.watch(joinViewModelProvider.select((state) =>
+    //     state is SuccessState && state.data is UnDuplicatedUsername));
 
     ref.listen(joinViewModelProvider, (prevState, newState) {
       if (newState is SuccessState) {
@@ -37,29 +39,41 @@ class _JoinScreen extends ConsumerState<JoinScreen> {
           data.when(duplicated: () {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text('닉네임이 이미 존재합니다'),
+                content: Text(duplicatedEmailString),
                 duration: Duration(seconds: 1),
               ),
             );
           }, unDuplicated: () {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('사용할 수 있는 닉네임입니다'),
-                duration: Duration(seconds: 1),),
+              SnackBar(
+                content: Text(availableEmailString),
+                duration: Duration(seconds: 1),
+              ),
             );
           }, success: () {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('회원가입에 성공하였습니다'),
-                duration: Duration(seconds: 1),),
+              SnackBar(
+                content: Text(joinSuccessString),
+                duration: Duration(seconds: 1),
+              ),
             );
             Navigator.pop(context);
           });
+        }
+      } else if (newState is ErrorState) {
+        final e = newState as FirebaseAuthException;
+        if (e.code == 'weak-password') {
+          SnackBar(
+            content: Text(unavailablePasswordString),
+            duration: Duration(seconds: 1),
+          );
         }
       }
     });
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('회원가입'),
+        title: Text(joinString),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -72,33 +86,34 @@ class _JoinScreen extends ConsumerState<JoinScreen> {
                   child: TextField(
                     controller: _usernameController,
                     decoration: InputDecoration(
-                      labelText: '아이디',
+                      labelText: emailLabelString,
                       border: OutlineInputBorder(),
                     ),
                   ),
                 ),
-                SizedBox(width: 8),
-                GestureDetector(
-                  child: Text('중복확인'),
-                  onTap: () {
-                    String username = _usernameController.text;
-                    if (username.isNotEmpty) {
-                      _joinViewModel.duplicatedCheck(username);
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('이메일과 비밀번호를 입력해주세요.')),
-                      );
-                    }
-                  },
-                ),
+                // SizedBox(width: 8),
+                // GestureDetector(
+                //   child: Text('중복확인'),
+                //   onTap: () {
+                //     String username = _usernameController.text;
+                //     if (username.isNotEmpty) {
+                //       _joinViewModel.duplicatedCheck(username);
+                //     } else {
+                //       ScaffoldMessenger.of(context).showSnackBar(
+                //         SnackBar(content: Text('이메일과 비밀번호를 입력해주세요.')),
+                //       );
+                //     }
+                //   },
+                // ),
               ],
             ),
             SizedBox(height: 16.0),
             TextField(
               controller: _passwordController,
-              enabled: flag,
+              // enabled: flag,
               decoration: InputDecoration(
-                labelText: '비밀번호',
+                labelText: passwordLabelString,
+                hintText: passwordHintString,
                 border: OutlineInputBorder(),
               ),
               obscureText: true,
@@ -111,20 +126,20 @@ class _JoinScreen extends ConsumerState<JoinScreen> {
 
                 // 로그인 로직 추가
                 if (username.isNotEmpty && password.isNotEmpty) {
-                  //todo join
+                  _joinViewModel.join(username, password);
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('이메일과 비밀번호를 입력해주세요.')),
+                    SnackBar(content: Text(emptyEmailOrPassword)),
                   );
                 }
               },
-              child: Text('회원가입'),
+              child: Text(joinString),
             ),
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('돌아가기'),
+              child: Text(backString),
             ),
           ],
         ),
