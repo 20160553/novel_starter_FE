@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:novel_starter/constants/string.dart';
 import 'package:novel_starter/providers/viewmodels/user_viewmodel_provider.dart';
 import 'package:novel_starter/screens/join_screen.dart';
 import 'package:novel_starter/viewmodels/user_viewmodel.dart';
@@ -22,7 +23,7 @@ class LoginScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('로그인'),
+        title: Text(loginString),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -32,7 +33,7 @@ class LoginScreen extends ConsumerWidget {
             TextField(
               controller: _usernameController,
               decoration: InputDecoration(
-                labelText: '아이디',
+                labelText: emailLabelString,
                 border: OutlineInputBorder(),
               ),
               keyboardType: TextInputType.emailAddress,
@@ -41,7 +42,8 @@ class LoginScreen extends ConsumerWidget {
             TextField(
               controller: _passwordController,
               decoration: InputDecoration(
-                labelText: '비밀번호',
+                hintText: passwordHintString,
+                labelText: passwordLabelString,
                 border: OutlineInputBorder(),
               ),
               obscureText: true,
@@ -57,11 +59,11 @@ class LoginScreen extends ConsumerWidget {
                   _userViewModel.login(username, password);
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('이메일과 비밀번호를 입력해주세요.')),
+                    SnackBar(content: Text(emptyEmailOrPassword)),
                   );
                 }
               },
-              child: Text('로그인'),
+              child: Text(loginString),
             ),
             TextButton(
               onPressed: () {
@@ -69,7 +71,7 @@ class LoginScreen extends ConsumerWidget {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => JoinScreen()));
               },
-              child: Text('회원가입'),
+              child: Text(joinString),
             ),
           ],
         ),

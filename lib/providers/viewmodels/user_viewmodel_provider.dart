@@ -5,7 +5,8 @@ import 'package:novel_starter/providers/usecases/user/login_usecase_provider.dar
 import 'package:novel_starter/viewmodels/user_viewmodel.dart';
 
 final userViewModelProvider = StateNotifierProvider<UserViewModel, ApiState<User?>>((ref) {
-  final loginUsecase = ref.watch(loginUseCaseProvider);
+  // final loginUsecase = ref.watch(loginUseCaseProvider);
+  final loginUsecase = ref.watch(loginUseCaseFirebaseProvider);
 
   return UserViewModel(loginUsecase);
 });

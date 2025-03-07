@@ -4,13 +4,13 @@ import 'package:novel_starter/repositories/join_repository.dart';
 import 'package:novel_starter/utils/utils.dart';
 
 class JoinRepositoryFirestore implements JoinRepository {
-  JoinRepositoryFirestore(this._authInstance, this._firestoreInstance);
+  JoinRepositoryFirestore(this._auth, this._firestore);
 
-  final FirebaseFirestore _firestoreInstance;
-  final FirebaseAuth _authInstance;
+  final FirebaseAuth _auth;
+  final FirebaseFirestore _firestore;
 
   @override
-  Stream<User?>? get authStateChanges => _authInstance.authStateChanges();
+  Stream<User?>? get authStateChanges => _auth.authStateChanges();
 
   @override
   Future<bool> duplicatedCheck(String email) {
@@ -21,21 +21,16 @@ class JoinRepositoryFirestore implements JoinRepository {
   @override
   Future<void> join(String email, String password) async {
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      final result = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-      // logger.d("Logger: $credential");
-      // final user = <String, dynamic>{
-      //   'email': email,
-      //   'uid': credential.user?.uid,
-      // };
-      // if (credential.user != null) {
-      //   _firestoreInstance.collection("users").add(user).then(
-      //       (DocumentReference doc) =>
-      //           logger.d('Logger DocumentSnapshot added with ID: ${doc.id}'));
-      //   ;
-      // }
+      if (result.user != null) {
+        final user = <String, dynamic> {
+          "email": email
+        };
+        _firestore.collection('users').doc(result.user!.uid).set(user);
+      }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         logger.e('The password provided is too weak.');

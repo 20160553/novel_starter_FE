@@ -5,8 +5,8 @@ class Config {
     return dotenv.env['BASE_URL'] ?? 'https://default.example.com';
   }
 
-  static String get fireStoreBaseUrl {
-    return dotenv.env['FIRESTORE_BASE'] ?? 'https://default.example.com';
+  static String get firebaseBaseUrl {
+    return dotenv.env['FIREBASE_BASE_URL'] ?? 'https://default.example.com';
   }
 
   static String get apiTestUrl {

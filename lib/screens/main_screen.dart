@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:novel_starter/screens/novel_detail_screen.dart';
+import 'package:novel_starter/utils/mockup.dart';
 import 'package:novel_starter/widgets/new_dialog.dart';
 import 'package:novel_starter/widgets/side_drawer.dart';
 
@@ -86,7 +87,7 @@ class MainScreen extends StatelessWidget {
                           authorName: '홍길동',
                           serialCycle: '주 2회 연재',
                           imageUrl:
-                              'https://static.scientificamerican.com/sciam/cache/file/F766A67E-A8AA-4C90-A929C9AC67075D4B_source.jpg?w=900',
+                              imageUrlMockup,
                           notices: ['공지사항 1', '공지사항 2'],
                           episodes: ['1화: 시작', '2화: 모험의 서막', '3화: 위기와 기회'],
                         ),

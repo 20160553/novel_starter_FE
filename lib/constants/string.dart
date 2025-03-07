@@ -5,6 +5,7 @@ const availableEmailString = '사용할 수 있는 이메일입니다';
 const joinSuccessString = '회원가입에 성공하였습니다';
 const unavailablePasswordString = '패스워드 양식을 맞춰주세요';
 
+const loginString = "로그인";
 const joinString = "회원가입";
 const emailLabelString = "이메일";
 const passwordLabelString = "비밀번호";

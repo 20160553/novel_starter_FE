@@ -1,15 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:novel_starter/models/work.dart';
+import 'package:novel_starter/providers/viewmodels/manage_work_viewmodel_provider.dart';
+import 'package:novel_starter/providers/viewmodels/user_viewmodel_provider.dart';
+import 'package:novel_starter/utils/utils.dart';
+import 'package:novel_starter/viewmodels/manage_work_viewmodel.dart';
+import 'package:novel_starter/viewmodels/user_viewmodel.dart';
 
-class NovelManageScreen extends StatelessWidget {
+class NovelManageScreen extends ConsumerStatefulWidget {
+  const NovelManageScreen({super.key});
+
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() {
+    return _NovelManageScreen();
+  }
+}
+
+class _NovelManageScreen extends ConsumerState<NovelManageScreen> {
+  late final ManageWorkViewmodel _manageWorkViewModel;
+  late final UserViewModel _userViewModel;
+  @override
+  void initState() {
+    super.initState();
+    _manageWorkViewModel = ref.read(manageWorkViewModelProvider.notifier);
+    _userViewModel = ref.read(userViewModelProvider.notifier);
+
+    String currentUid = _userViewModel.currentUid;
+    if (currentUid == "null") {
+      Navigator.pop(context);
+    } else {
+      WidgetsBinding.instance.addPostFrameCallback(
+          (_) => _manageWorkViewModel.getWorksByUserId(currentUid));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final List<Work> works = ref.watch(manageWorkViewModelProvider).when(loading: () => [] , success: (data) {
+      return data ?? [];
+    }, error: (e) => []);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('내 작품 관리'),
       ),
       body: ListView.builder(
         padding: const EdgeInsets.all(16.0),
-        itemCount: 5, // 등록된 작품 수 (예시)
+        itemCount: works.length, // 등록된 작품 수 (예시)
         itemBuilder: (context, index) {
           return Card(
             margin: const EdgeInsets.only(bottom: 16.0),
@@ -36,7 +73,7 @@ class NovelManageScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '작품 제목 ${index + 1}',
+                              works[index].title,
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,

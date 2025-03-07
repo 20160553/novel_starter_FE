@@ -6,14 +6,14 @@ import 'package:novel_starter/usecases/join_usecase.dart';
 import 'package:novel_starter/utils/utils.dart';
 
 class JoinViewModel extends StateNotifier<ApiState<JoinResult?>> {
-  JoinViewModel(this.joinUsecase) : super(ApiState.success(data: null));
+  JoinViewModel(this._joinUsecase) : super(ApiState.success(data: null));
 
-  final JoinUsecase joinUsecase;
+  final JoinUsecase _joinUsecase;
 
   void join(String email, String password) async {
     state = ApiState.loading();
     try {
-      await joinUsecase.execute(email, password);
+      await _joinUsecase.execute(email, password);
 
       state = ApiState.success(data: JoinResult.success());
     } on FirebaseAuthException catch (e) {
@@ -35,7 +35,7 @@ class JoinViewModel extends StateNotifier<ApiState<JoinResult?>> {
   void duplicatedCheck(String email) async {
     state = ApiState.loading();
     try {
-      final result = await joinUsecase.duplicatedCheck(email);
+      final result = await _joinUsecase.duplicatedCheck(email);
       JoinResult data =
           result ? JoinResult.duplicated() : JoinResult.unDuplicated();
       state = ApiState.success(data: data);

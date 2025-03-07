@@ -26,7 +26,7 @@ class _SideDrawerState extends ConsumerState<SideDrawer> {
     _userViewModel = ref.read(userViewModelProvider.notifier);
     final apiState = ref.read(userViewModelProvider);
     apiState.when(loading: () {}, success: (data) {
-      username = data?.username ?? default_username;
+      username = data?.email ?? default_username;
     }, error: (e) {});
   }
 

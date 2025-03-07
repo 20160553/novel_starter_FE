@@ -6,3 +6,8 @@ final loginUseCaseProvider = Provider<LoginUsecase>((ref) {
   final userRepository = ref.watch(userRepositoryProvider);
   return LoginUsecase(userRepository);
 });
+
+final loginUseCaseFirebaseProvider = Provider<LoginUsecase>((ref) {
+  final userRepository = ref.watch(userRepositoryFirebaseProvider);
+  return LoginUsecase(userRepository);
+});

@@ -1,0 +1,12 @@
+import 'package:novel_starter/models/work.dart';
+import 'package:novel_starter/repositories/work_repository.dart';
+
+class GetWorkUsecase {
+  GetWorkUsecase(this._workRepository);
+  
+  final WorkRepository _workRepository;
+
+  Future<List<Work>> getWorksByUserUid(String userId) async {
+    return _workRepository.getWorksByUserId(userId);
+  }
+}

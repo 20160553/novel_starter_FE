@@ -29,5 +29,6 @@ class MyApp extends StatelessWidget {
 
 Future<void> initializeFirebase() async {
   FirebaseApp app = await Firebase.initializeApp();
-  // await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  await FirebaseAuth.instance.useAuthEmulator("10.0.2.2", 9099);
+  FirebaseFirestore.instance.useFirestoreEmulator("10.0.2.2", 8080);
 }

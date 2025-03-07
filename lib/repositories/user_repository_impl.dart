@@ -33,7 +33,7 @@ class UserRepositoryImpl implements UserRepository {
       );
 
       Map<String, dynamic> decodedToken = JwtDecoder.decode(accessToken);
-      return User(id: decodedToken['id'], username: decodedToken['username']);
+      return User(uid: decodedToken['uid'], email: decodedToken['username']);
     } catch (e) {
       rethrow;
     }
@@ -42,6 +42,12 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<User> getUser(String accessToken, int id) {
     // TODO: implement getUser
+    throw UnimplementedError();
+  }
+  
+  @override
+  Future<void> logout() {
+    // TODO: implement logout
     throw UnimplementedError();
   }
 }

@@ -34,8 +34,9 @@ class _JoinScreen extends ConsumerState<JoinScreen> {
 
     ref.listen(joinViewModelProvider, (prevState, newState) {
       if (newState is SuccessState) {
-        if (newState.data != null) {
-          final data = newState.data as JoinResult;
+        final tempState = newState as SuccessState;
+        if (tempState.data != null) {
+          final data = tempState.data as JoinResult;
           data.when(duplicated: () {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(

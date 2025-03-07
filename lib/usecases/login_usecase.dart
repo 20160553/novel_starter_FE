@@ -7,7 +7,7 @@ class LoginUsecase {
 
   final UserRepository repository;
 
-  Future<User> execute(String username, String password) async {
-    return await repository.login(username, password);
+  Future<User> execute(String email, String password) async {
+    return await repository.login(email, password);
   }
 }

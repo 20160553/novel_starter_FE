@@ -1,0 +1,1 @@
+const imageUrlMockup = "https://static.scientificamerican.com/sciam/cache/file/F766A67E-A8AA-4C90-A929C9AC67075D4B_source.jpg?w=900";

@@ -12,5 +12,5 @@ final joinRepositoryProvider = Provider<JoinRepository>((ref) {
 });
 
 final joinRepositoryFirestoreProvider = Provider<JoinRepository>((ref) {
-  return JoinRepositoryFirestore(FirebaseAuth.instance);
+  return JoinRepositoryFirestore(FirebaseAuth.instance, FirebaseFirestore.instance);
 });
