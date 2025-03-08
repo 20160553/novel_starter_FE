@@ -8,8 +8,8 @@ class UserViewModel extends StateNotifier<ApiState<User?>> {
       : super(ApiState.success(data: null));
 
   final LoginUsecase _loginUsecase;
-  String get currentUid {
-    return state.when(loading: () => "null", success: (data) => data?.uid ?? "null", error: (e) => "null");
+  String? get currentUid {
+    return state.when(loading: () => null, success: (data) => data?.uid, error: (e) => null);
   }
 
   void joinSuceessed(User user) {

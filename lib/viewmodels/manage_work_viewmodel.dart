@@ -5,8 +5,8 @@ import 'package:novel_starter/usecases/work/delete_work_usecase.dart';
 import 'package:novel_starter/usecases/work/get_work_usecase.dart';
 import 'package:novel_starter/utils/utils.dart';
 
-class ManageWorkViewmodel extends StateNotifier<ApiState<List<Work>?>> {
-  ManageWorkViewmodel(this._getWorkUsecase, this._deleteWorkUsecase)
+class ManageWorkViewModel extends StateNotifier<ApiState<List<Work>?>> {
+  ManageWorkViewModel(this._getWorkUsecase, this._deleteWorkUsecase)
       : super(ApiState.success(data: null));
 
   final GetWorkUsecase _getWorkUsecase;

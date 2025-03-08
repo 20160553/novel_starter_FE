@@ -22,5 +22,4 @@ class CreateWorkViewModel extends StateNotifier<ApiState<Object?>> {
     }
   }
 
-
 }

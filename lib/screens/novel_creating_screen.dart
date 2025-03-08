@@ -140,13 +140,13 @@ class _NovelCreatingScreen extends ConsumerState<NovelCreatingScreen> {
               ElevatedButton(
                 onPressed: () {
                   // 제출 로직
-                  if (_userViewModel.currentUid == "null") return;
+                  if (_userViewModel.currentUid == null) return;
                   final time = DateTime.now();
                   _createWorkViewModel.createWork(Work(
                     title: _titleController.text,
                     description: _descriptionController.text,
                     workId: uuid.v4(),
-                    userId: _userViewModel.currentUid,
+                    userId: _userViewModel.currentUid!,
                     createdAt: time,
                     updatedAt: time,
                   ));

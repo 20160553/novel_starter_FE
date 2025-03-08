@@ -16,7 +16,7 @@ class NovelManageScreen extends ConsumerStatefulWidget {
 }
 
 class _NovelManageScreen extends ConsumerState<NovelManageScreen> {
-  late final ManageWorkViewmodel _manageWorkViewModel;
+  late final ManageWorkViewModel _manageWorkViewModel;
   late final UserViewModel _userViewModel;
   @override
   void initState() {
@@ -24,8 +24,8 @@ class _NovelManageScreen extends ConsumerState<NovelManageScreen> {
     _manageWorkViewModel = ref.read(manageWorkViewModelProvider.notifier);
     _userViewModel = ref.read(userViewModelProvider.notifier);
 
-    String currentUid = _userViewModel.currentUid;
-    if (currentUid == "null") {
+    String? currentUid = _userViewModel.currentUid;
+    if (currentUid == null) {
       Navigator.pop(context);
     } else {
       WidgetsBinding.instance.addPostFrameCallback(
