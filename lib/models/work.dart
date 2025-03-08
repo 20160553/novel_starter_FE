@@ -13,6 +13,7 @@ class Work with _$Work {
     // required int ageId,
     required DateTime createdAt,
     required DateTime updatedAt,
+    required String workId,
     required String userId,
     @Default(imageUrlMockup) String thumbnailImgUrl,
   }) = _Work;

@@ -26,6 +26,7 @@ mixin _$Work {
 // required int ageId,
   DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime get updatedAt => throw _privateConstructorUsedError;
+  String get workId => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
   String get thumbnailImgUrl => throw _privateConstructorUsedError;
 
@@ -48,6 +49,7 @@ abstract class $WorkCopyWith<$Res> {
       String description,
       DateTime createdAt,
       DateTime updatedAt,
+      String workId,
       String userId,
       String thumbnailImgUrl});
 }
@@ -71,6 +73,7 @@ class _$WorkCopyWithImpl<$Res, $Val extends Work>
     Object? description = null,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? workId = null,
     Object? userId = null,
     Object? thumbnailImgUrl = null,
   }) {
@@ -91,6 +94,10 @@ class _$WorkCopyWithImpl<$Res, $Val extends Work>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      workId: null == workId
+          ? _value.workId
+          : workId // ignore: cast_nullable_to_non_nullable
+              as String,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -115,6 +122,7 @@ abstract class _$$WorkImplCopyWith<$Res> implements $WorkCopyWith<$Res> {
       String description,
       DateTime createdAt,
       DateTime updatedAt,
+      String workId,
       String userId,
       String thumbnailImgUrl});
 }
@@ -135,6 +143,7 @@ class __$$WorkImplCopyWithImpl<$Res>
     Object? description = null,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? workId = null,
     Object? userId = null,
     Object? thumbnailImgUrl = null,
   }) {
@@ -155,6 +164,10 @@ class __$$WorkImplCopyWithImpl<$Res>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      workId: null == workId
+          ? _value.workId
+          : workId // ignore: cast_nullable_to_non_nullable
+              as String,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -175,6 +188,7 @@ class _$WorkImpl implements _Work {
       required this.description,
       required this.createdAt,
       required this.updatedAt,
+      required this.workId,
       required this.userId,
       this.thumbnailImgUrl = imageUrlMockup});
 
@@ -192,6 +206,8 @@ class _$WorkImpl implements _Work {
   @override
   final DateTime updatedAt;
   @override
+  final String workId;
+  @override
   final String userId;
   @override
   @JsonKey()
@@ -199,7 +215,7 @@ class _$WorkImpl implements _Work {
 
   @override
   String toString() {
-    return 'Work(title: $title, description: $description, createdAt: $createdAt, updatedAt: $updatedAt, userId: $userId, thumbnailImgUrl: $thumbnailImgUrl)';
+    return 'Work(title: $title, description: $description, createdAt: $createdAt, updatedAt: $updatedAt, workId: $workId, userId: $userId, thumbnailImgUrl: $thumbnailImgUrl)';
   }
 
   @override
@@ -214,6 +230,7 @@ class _$WorkImpl implements _Work {
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
+            (identical(other.workId, workId) || other.workId == workId) &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.thumbnailImgUrl, thumbnailImgUrl) ||
                 other.thumbnailImgUrl == thumbnailImgUrl));
@@ -222,7 +239,7 @@ class _$WorkImpl implements _Work {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, title, description, createdAt,
-      updatedAt, userId, thumbnailImgUrl);
+      updatedAt, workId, userId, thumbnailImgUrl);
 
   /// Create a copy of Work
   /// with the given fields replaced by the non-null parameter values.
@@ -246,6 +263,7 @@ abstract class _Work implements Work {
       required final String description,
       required final DateTime createdAt,
       required final DateTime updatedAt,
+      required final String workId,
       required final String userId,
       final String thumbnailImgUrl}) = _$WorkImpl;
 
@@ -260,6 +278,8 @@ abstract class _Work implements Work {
   DateTime get createdAt;
   @override
   DateTime get updatedAt;
+  @override
+  String get workId;
   @override
   String get userId;
   @override

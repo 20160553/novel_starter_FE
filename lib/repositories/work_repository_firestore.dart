@@ -12,7 +12,7 @@ class WorkRepositoryFirestore implements WorkRepository {
   @override
   Future<void> createWork(Work work) async {
     try {
-      worksRef.add(work.toJson());
+      worksRef.doc(work.workId).set(work.toJson());
     } catch (e) {
       rethrow;
     }
@@ -35,6 +35,15 @@ class WorkRepositoryFirestore implements WorkRepository {
       return works;
     } catch (e) {
       logger.e("Logger catch $e");
+      rethrow;
+    }
+  }
+  
+  @override
+  Future<void> deleteWork(Work work) async {
+    try {
+      await worksRef.doc(work.workId).delete();
+    } catch(e) {
       rethrow;
     }
   }

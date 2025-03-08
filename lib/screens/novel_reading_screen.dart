@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 class NovelReadingScreen extends StatefulWidget {
-  final String episodeTitle;
-
   NovelReadingScreen({required this.episodeTitle});
+  final String episodeTitle;
 
   @override
   _NovelReadingScreenState createState() => _NovelReadingScreenState();

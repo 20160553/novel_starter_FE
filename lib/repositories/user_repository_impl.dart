@@ -1,7 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
-
-import 'package:dio/dio.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:novel_starter/repositories/user_repository.dart';
 import 'package:novel_starter/models/user.dart';

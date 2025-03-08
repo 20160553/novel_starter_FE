@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:novel_starter/models/work.dart';
 import 'package:novel_starter/providers/viewmodels/manage_work_viewmodel_provider.dart';
 import 'package:novel_starter/providers/viewmodels/user_viewmodel_provider.dart';
-import 'package:novel_starter/utils/utils.dart';
 import 'package:novel_starter/viewmodels/manage_work_viewmodel.dart';
 import 'package:novel_starter/viewmodels/user_viewmodel.dart';
 
@@ -36,9 +35,12 @@ class _NovelManageScreen extends ConsumerState<NovelManageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Work> works = ref.watch(manageWorkViewModelProvider).when(loading: () => [] , success: (data) {
-      return data ?? [];
-    }, error: (e) => []);
+    final List<Work> works = ref.watch(manageWorkViewModelProvider).when(
+        loading: () => [],
+        success: (data) {
+          return data ?? [];
+        },
+        error: (e) => []);
 
     return Scaffold(
       appBar: AppBar(
@@ -59,13 +61,10 @@ class _NovelManageScreen extends ConsumerState<NovelManageScreen> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
+                      Image.network(
+                        works[index].thumbnailImgUrl,
                         width: 80,
                         height: 120,
-                        color: Colors.grey[300],
-                        child: Center(
-                          child: Text('북커버 이미지'),
-                        ),
                       ),
                       SizedBox(width: 16),
                       Expanded(
@@ -89,7 +88,9 @@ class _NovelManageScreen extends ConsumerState<NovelManageScreen> {
                     ],
                   ),
                   SizedBox(height: 16),
-                  Row(
+                  Column(
+                    children: [
+                      Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       ElevatedButton(
@@ -104,14 +105,27 @@ class _NovelManageScreen extends ConsumerState<NovelManageScreen> {
                         },
                         child: Text('소설 관리'),
                       ),
+                    ],
+                  ),Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
                       ElevatedButton(
                         onPressed: () {
                           // 소설 통계 로직
                         },
                         child: Text('소설 통계'),
+                      ),ElevatedButton(
+                        onPressed: () {
+                          // 소설 삭제 로직
+                          _manageWorkViewModel.deleteWork(works[index]);
+                        },
+                        child: Text('소설 삭제'),
                       ),
                     ],
                   ),
+                    ],
+                  )
+                  
                 ],
               ),
             ),

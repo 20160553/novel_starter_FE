@@ -1,5 +1,4 @@
 import 'package:novel_starter/models/user.dart';
-import 'package:novel_starter/repositories/join_repository.dart';
 import 'package:novel_starter/repositories/user_repository.dart';
 
 class LoginUsecase {

@@ -3,11 +3,21 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:novel_starter/models/work.dart';
 import 'package:novel_starter/providers/viewmodels/create_work_viewmodel_provider.dart';
 import 'package:novel_starter/providers/viewmodels/user_viewmodel_provider.dart';
+import 'package:novel_starter/utils/utils.dart';
 import 'package:novel_starter/viewmodels/create_work_viewmodel.dart';
 import 'package:novel_starter/viewmodels/user_viewmodel.dart';
 
-class NovelCreatingScreen extends ConsumerWidget {
-  NovelCreatingScreen({super.key});
+class NovelCreatingScreen extends ConsumerStatefulWidget {
+  const NovelCreatingScreen({super.key});
+  
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() {
+    return _NovelCreatingScreen();
+  }
+
+}
+
+class _NovelCreatingScreen extends ConsumerState<NovelCreatingScreen> {
 
   late final UserViewModel _userViewModel;
   late final CreateWorkViewModel _createWorkViewModel;
@@ -16,11 +26,15 @@ class NovelCreatingScreen extends ConsumerWidget {
   final TextEditingController _descriptionController = TextEditingController();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  void initState() {
+    super.initState();
+    
+  }
+
+  @override
+  Widget build(BuildContext context) {
     _userViewModel = ref.read(userViewModelProvider.notifier);
     _createWorkViewModel = ref.read(createWorkViewModelProvider.notifier);
-
-
 
     return Scaffold(
       appBar: AppBar(
@@ -131,6 +145,7 @@ class NovelCreatingScreen extends ConsumerWidget {
                   _createWorkViewModel.createWork(Work(
                     title: _titleController.text,
                     description: _descriptionController.text,
+                    workId: uuid.v4(),
                     userId: _userViewModel.currentUid,
                     createdAt: time,
                     updatedAt: time,
@@ -144,4 +159,5 @@ class NovelCreatingScreen extends ConsumerWidget {
       ),
     );
   }
+
 }

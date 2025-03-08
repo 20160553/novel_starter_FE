@@ -9,7 +9,7 @@ class NovelDetailScreen extends StatelessWidget {
   final List<String> notices;
   final List<String> episodes;
 
-  NovelDetailScreen({
+  const NovelDetailScreen({super.key, 
     required this.novelTitle,
     required this.authorName,
     required this.serialCycle,

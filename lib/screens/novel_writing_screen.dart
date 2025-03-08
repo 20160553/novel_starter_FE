@@ -1,6 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:novel_starter/providers/viewmodels/create_work_viewmodel_provider.dart';
+import 'package:novel_starter/viewmodels/create_work_viewmodel.dart';
 
-class NovelWritingScreen extends StatelessWidget {
+class NovelWritingScreen extends ConsumerStatefulWidget {
+  const NovelWritingScreen({super.key});
+
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() {
+    return _NovelWritingScreen();
+  }
+  
+}
+
+class _NovelWritingScreen extends ConsumerState<NovelWritingScreen> {
+
+  late final CreateWorkViewModel _createWorkViewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    _createWorkViewModel = ref.read(createWorkViewModelProvider.notifier);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,5 +110,7 @@ class NovelWritingScreen extends StatelessWidget {
         ),
       ),
     );
+  
   }
+
 }
