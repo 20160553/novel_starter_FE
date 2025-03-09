@@ -12,7 +12,6 @@ class NoticeRepositoryFirestore implements NoticeRepository {
   @override
   Future<void> createNotice(Notice notice) async {
     try {
-      logger.d("hi");
       return _noticeRef.doc(notice.noticeId).set(notice.toJson());
     } catch (e) {
       rethrow;
@@ -26,9 +25,21 @@ class NoticeRepositoryFirestore implements NoticeRepository {
   }
 
   @override
-  Future<List<Notice>> getNoticesbyWorkId(String workId) async {
-    // TODO: implement getNoticesbyWorkId
-    throw UnimplementedError();
+  Future<List<Notice>> getNoticesByWorkId(String workId) async {
+    List<Notice> notices = [];
+    try {
+      await _noticeRef.where("workId", isEqualTo: workId).get().then(
+        (querySnapshot) {
+          for (var docSnapshot in querySnapshot.docs) {
+            notices.add(Notice.fromJson(docSnapshot.data()));
+          }
+        },
+        onError: (e) => logger.e("Logger $e"),
+      );
+    } catch (e) {
+      rethrow;
+    }
+    return notices;
   }
 
   @override

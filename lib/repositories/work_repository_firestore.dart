@@ -21,7 +21,6 @@ class WorkRepositoryFirestore implements WorkRepository {
   @override
   Future<List<Work>> getWorksByUserId(String userId) async {
     List<Work> works = [];
-
     try {
       await worksRef.where("userId", isEqualTo: userId).get().then(
         (querySnapshot) {
@@ -38,13 +37,26 @@ class WorkRepositoryFirestore implements WorkRepository {
       rethrow;
     }
   }
-  
+
   @override
   Future<void> deleteWork(Work work) async {
     try {
       await worksRef.doc(work.workId).delete();
-    } catch(e) {
+    } catch (e) {
       rethrow;
     }
+  }
+
+  @override
+  Future<Work?> getWorkByWorkId(String workId) async {
+    final Map<String, dynamic>? data;
+    try {
+      final result = await worksRef.doc(workId).get();
+      data = result.data();
+    } catch (e) {
+      rethrow;
+    }
+    if (data == null) return null;
+    return Work.fromJson(data);
   }
 }

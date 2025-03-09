@@ -79,20 +79,14 @@ class MainScreen extends StatelessWidget {
                   title: Text('인기 소설 ${index + 1}'),
                   subtitle: Text('작성자: 사용자 ${index + 1}'),
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => NovelDetailScreen(
-                          novelTitle: '환상적인 소설',
-                          authorName: '홍길동',
-                          serialCycle: '주 2회 연재',
-                          imageUrl:
-                              imageUrlMockup,
-                          notices: ['공지사항 1', '공지사항 2'],
-                          episodes: ['1화: 시작', '2화: 모험의 서막', '3화: 위기와 기회'],
-                        ),
-                      ),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => NovelDetailScreen(
+                    //       work: "1",
+                    //     ),
+                    //   ),
+                    // );
                   },
                 );
               },

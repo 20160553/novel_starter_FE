@@ -9,4 +9,8 @@ class GetWorkUsecase {
   Future<List<Work>> getWorksByUserUid(String userId) async {
     return _workRepository.getWorksByUserId(userId);
   }
+
+  Future<Work?> getWorkByWorkId(String workId) async {
+    return _workRepository.getWorkByWorkId(workId);
+  }
 }
