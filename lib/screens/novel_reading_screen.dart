@@ -1,17 +1,33 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-class NovelReadingScreen extends StatefulWidget {
-  NovelReadingScreen({required this.episodeTitle});
-  final String episodeTitle;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:novel_starter/models/work_content_detail.dart';
+import 'package:novel_starter/providers/viewmodels/get_work_content_detail_viewmodel_provider.dart';
+import 'package:novel_starter/viewmodels/get_work_content_detail_viewmodel.dart';
 
+class NovelReadingScreen extends ConsumerStatefulWidget {
+  const NovelReadingScreen({required this.workContentDetailId, super.key});
+  final String workContentDetailId;
+  
   @override
-  _NovelReadingScreenState createState() => _NovelReadingScreenState();
+  ConsumerState<NovelReadingScreen> createState() => _NovelReadingScreenState();  
 }
 
-class _NovelReadingScreenState extends State<NovelReadingScreen> {
+class _NovelReadingScreenState extends ConsumerState<NovelReadingScreen> {
   bool _showToolbar = false;
   Timer? _toolbarTimer;
+  
+  late GetWorkContentDetailViewmodel _getWorkContentDetailViewmodel;
+
+  @override
+  void initState() {
+    super.initState();
+    _getWorkContentDetailViewmodel = ref.read(getWorkContentDetailViewmodelProvider.notifier);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _getWorkContentDetailViewmodel.getWorkContentDetailById(widget.workContentDetailId);
+    });
+  }
 
   void _toggleToolbar() {
     setState(() {
@@ -36,6 +52,8 @@ class _NovelReadingScreenState extends State<NovelReadingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final WorkContentDetail? workContentDetail = ref.watch(getWorkContentDetailViewmodelProvider).when(error: (_) => null, loading: () => null, success: (data) => data,);
+
     return GestureDetector(
       onTap: _toggleToolbar,
       child: Scaffold(
@@ -50,7 +68,7 @@ class _NovelReadingScreenState extends State<NovelReadingScreen> {
                   Expanded(
                     child: SingleChildScrollView(
                       child: Text(
-                        '소설 감상 페이지 내용: 여기에서 사용자가 회차 내용을 읽을 수 있습니다.',
+                        workContentDetail?.body ?? "",
                         style: TextStyle(fontSize: 16),
                       ),
                     ),
@@ -74,7 +92,7 @@ class _NovelReadingScreenState extends State<NovelReadingScreen> {
                         ),
                         Expanded(
                           child: Text(
-                            widget.episodeTitle,
+                            widget.workContentDetailId,
                             style: TextStyle(color: Colors.white, fontSize: 18),
                           ),
                         ),

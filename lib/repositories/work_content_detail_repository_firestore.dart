@@ -4,16 +4,18 @@ import 'package:novel_starter/repositories/work_content_detail_repository.dart';
 
 class WorkContentDetailRepositoryFirestore
     implements WorkContentDetailRepository {
-  
   WorkContentDetailRepositoryFirestore(this._firestore);
-  
+
   final FirebaseFirestore _firestore;
   late final _workContentDetailRef = _firestore.collection('content-details');
 
   @override
-  Future<void> createWorkContentDetail(WorkContentDetail workContentDetial) async {
+  Future<void> createWorkContentDetail(
+      WorkContentDetail workContentDetial) async {
     try {
-      return _workContentDetailRef.doc(workContentDetial.contentDetailId).set(workContentDetial.toJson());
+      return _workContentDetailRef
+          .doc(workContentDetial.contentDetailId)
+          .set(workContentDetial.toJson());
     } catch (e) {
       rethrow;
     }
@@ -26,10 +28,16 @@ class WorkContentDetailRepositoryFirestore
   }
 
   @override
-  Future<WorkContentDetail> getWorkContentDetailById(
-      String workContentDetailId) {
-    // TODO: implement getWorkContentDetailById
-    throw UnimplementedError();
+  Future<WorkContentDetail?> getWorkContentDetailById(
+      String workContentDetailId) async {
+    final Map<String, dynamic>? data;
+    try {
+      final result = await _workContentDetailRef.doc(workContentDetailId).get();
+      data = result.data();
+    } catch (e) {
+      rethrow;
+    }
+    return data == null ? null : WorkContentDetail.fromJson(data);
   }
 
   @override

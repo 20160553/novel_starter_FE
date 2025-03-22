@@ -31,7 +31,7 @@ class ManageWorkViewModel extends StateNotifier<ApiState<List<Work>?>> {
     state = ApiState.loading();
     try {
       await _deleteWorkUsecase.execute(work);
-      prevData!.remove(work);
+      prevData.remove(work);
       state = ApiState.success(data: [...prevData]);
     } on Exception catch (e) {
       logger.e(e);

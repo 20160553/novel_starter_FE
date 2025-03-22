@@ -34,8 +34,6 @@ class _WorkInfoCard extends ConsumerState<WorkInfoCard> {
 
   @override
   Widget build(BuildContext context) {
-
-    ApiState<Work?> apiState = ApiState.success(data: null);
     Work work = widget.work;
     work = ref.watch(workDetailViewModelProvider).when(loading: () => work, success: (data) {
       return data ?? work;
