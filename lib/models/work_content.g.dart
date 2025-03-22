@@ -9,11 +9,10 @@ part of 'work_content.dart';
 _$EpisodeImpl _$$EpisodeImplFromJson(Map<String, dynamic> json) =>
     _$EpisodeImpl(
       title: json['title'] as String,
-      content: json['content'] as String,
+      contentDetailId: json['contentDetailId'] as String,
       episodeId: json['episodeId'] as String,
       workId: json['workId'] as String,
       userId: json['userId'] as String,
-      comment: json['comment'] as String,
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: DateTime.parse(json['updatedAt'] as String),
       $type: json['runtimeType'] as String?,
@@ -22,11 +21,10 @@ _$EpisodeImpl _$$EpisodeImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$EpisodeImplToJson(_$EpisodeImpl instance) =>
     <String, dynamic>{
       'title': instance.title,
-      'content': instance.content,
+      'contentDetailId': instance.contentDetailId,
       'episodeId': instance.episodeId,
       'workId': instance.workId,
       'userId': instance.userId,
-      'comment': instance.comment,
       'createdAt': instance.createdAt.toIso8601String(),
       'updatedAt': instance.updatedAt.toIso8601String(),
       'runtimeType': instance.$type,
@@ -34,11 +32,10 @@ Map<String, dynamic> _$$EpisodeImplToJson(_$EpisodeImpl instance) =>
 
 _$NoticeImpl _$$NoticeImplFromJson(Map<String, dynamic> json) => _$NoticeImpl(
       title: json['title'] as String,
-      content: json['content'] as String,
+      contentDetailId: json['contentDetailId'] as String,
       noticeId: json['noticeId'] as String,
       workId: json['workId'] as String,
       userId: json['userId'] as String,
-      comment: json['comment'] as String,
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: DateTime.parse(json['updatedAt'] as String),
       $type: json['runtimeType'] as String?,
@@ -47,11 +44,10 @@ _$NoticeImpl _$$NoticeImplFromJson(Map<String, dynamic> json) => _$NoticeImpl(
 Map<String, dynamic> _$$NoticeImplToJson(_$NoticeImpl instance) =>
     <String, dynamic>{
       'title': instance.title,
-      'content': instance.content,
+      'contentDetailId': instance.contentDetailId,
       'noticeId': instance.noticeId,
       'workId': instance.workId,
       'userId': instance.userId,
-      'comment': instance.comment,
       'createdAt': instance.createdAt.toIso8601String(),
       'updatedAt': instance.updatedAt.toIso8601String(),
       'runtimeType': instance.$type,

@@ -7,22 +7,20 @@ part 'work_content.g.dart';
 class WorkContent with _$WorkContent {
   const factory WorkContent.episode({
     required String title,
-    required String content,
+    required String contentDetailId,
     required String episodeId,
     required String workId,
     required String userId,
-    required String comment,
     required DateTime createdAt,
     required DateTime updatedAt,
   }) = Episode;
 
   const factory WorkContent.notice({
     required String title,
-    required String content,
+    required String contentDetailId,
     required String noticeId,
     required String workId,
     required String userId,
-    required String comment,
     required DateTime createdAt,
     required DateTime updatedAt,
   }) = Notice;

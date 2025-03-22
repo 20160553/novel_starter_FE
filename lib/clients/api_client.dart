@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:novel_starter/utils/config.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:novel_starter/utils/utils.dart';
 
 class ApiClient {
   Dio dio;

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:novel_starter/models/work.dart';
 import 'package:novel_starter/models/work_content.dart';
+import 'package:novel_starter/models/work_content_detail.dart';
 import 'package:novel_starter/providers/viewmodels/create_work_content_viewmodel_provider.dart';
 import 'package:novel_starter/providers/viewmodels/manage_work_viewmodel_provider.dart';
 import 'package:novel_starter/providers/viewmodels/user_viewmodel_provider.dart';
@@ -174,26 +175,34 @@ class _NovelWritingScreen extends ConsumerState<NovelWritingScreen> {
                   // 제출 로직
                   if (currentUid == null || selected == null) return;
                   DateTime now = DateTime.now();
+                  final contentDetailId = uuid.v4();
+                  final contentId = uuid.v4();
+                  final WorkContentDetail contentDetail = WorkContentDetail(
+                      contentDetailId: contentDetailId,
+                      workContentId: contentId,
+                      userId: currentUid,
+                      body: _contentController.text,
+                      comment: _commentController.text);
                   if (isNotice) {
-                    _createWorkContentViewModel.createWorkContent(WorkContent.notice(
-                        title: _titleController.text,
-                        content: _contentController.text,
-                        comment: _commentController.text,
-                        createdAt: now,
-                        updatedAt: now,
-                        workId: selected!.workId,
-                        userId: currentUid,
-                        noticeId: uuid.v4()));
+                    _createWorkContentViewModel.createWorkContentAndDetail(
+                        WorkContent.notice(
+                            title: _titleController.text,
+                            contentDetailId: contentDetailId,
+                            createdAt: now,
+                            updatedAt: now,
+                            workId: selected!.workId,
+                            userId: currentUid,
+                            noticeId: contentId), contentDetail);
                   } else {
-                    _createWorkContentViewModel.createWorkContent(WorkContent.episode(
-                        title: _titleController.text,
-                        content: _contentController.text,
-                        comment: _commentController.text,
-                        createdAt: now,
-                        updatedAt: now,
-                        workId: selected!.workId,
-                        userId: currentUid,
-                        episodeId: uuid.v4()));
+                    _createWorkContentViewModel.createWorkContentAndDetail(
+                        WorkContent.episode(
+                            title: _titleController.text,
+                            contentDetailId: contentDetailId,
+                            createdAt: now,
+                            updatedAt: now,
+                            workId: selected!.workId,
+                            userId: currentUid,
+                            episodeId: contentId), contentDetail);
                   }
                 },
                 child: Text('작성 완료'),
