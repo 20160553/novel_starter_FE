@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:novel_starter/models/work_content.dart';
 import 'package:novel_starter/models/work_content_detail.dart';
 import 'package:novel_starter/providers/viewmodels/get_work_content_detail_viewmodel_provider.dart';
 import 'package:novel_starter/viewmodels/get_work_content_detail_viewmodel.dart';
+import 'package:novel_starter/widgets/comment_layout.dart';
+import 'package:novel_starter/widgets/novel_reading_bottom_toolbar.dart';
+import 'package:novel_starter/widgets/novel_reading_top_toolbar.dart';
 
 class NovelReadingScreen extends ConsumerStatefulWidget {
-  const NovelReadingScreen({required this.workContentDetailId, super.key});
-  final String workContentDetailId;
+  const NovelReadingScreen({required this.workContent, super.key});
+  final WorkContent workContent;
   
   @override
   ConsumerState<NovelReadingScreen> createState() => _NovelReadingScreenState();  
@@ -16,6 +20,7 @@ class NovelReadingScreen extends ConsumerStatefulWidget {
 
 class _NovelReadingScreenState extends ConsumerState<NovelReadingScreen> {
   bool _showToolbar = false;
+  bool _showComments = false;
   Timer? _toolbarTimer;
   
   late GetWorkContentDetailViewmodel _getWorkContentDetailViewmodel;
@@ -25,13 +30,14 @@ class _NovelReadingScreenState extends ConsumerState<NovelReadingScreen> {
     super.initState();
     _getWorkContentDetailViewmodel = ref.read(getWorkContentDetailViewmodelProvider.notifier);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _getWorkContentDetailViewmodel.getWorkContentDetailById(widget.workContentDetailId);
+      _getWorkContentDetailViewmodel.getWorkContentDetailById(widget.workContent.contentDetailId);
     });
   }
 
   void _toggleToolbar() {
     setState(() {
       _showToolbar = !_showToolbar;
+      _showComments = false;
     });
 
     if (_showToolbar) {
@@ -42,6 +48,14 @@ class _NovelReadingScreenState extends ConsumerState<NovelReadingScreen> {
         });
       });
     }
+  }
+
+  void _toggleComments() {
+    _toolbarTimer?.cancel();
+    setState(() {
+      _showComments = !_showComments;
+      _showToolbar = true;
+    });
   }
 
   @override
@@ -79,75 +93,10 @@ class _NovelReadingScreenState extends ConsumerState<NovelReadingScreen> {
             if (_showToolbar)
               Column(
                 children: [
-                  Container(
-                    color: Colors.black54,
-                    padding: EdgeInsets.symmetric(vertical: 8.0),
-                    child: Row(
-                      children: [
-                        IconButton(
-                          icon: Icon(Icons.home, color: Colors.white),
-                          onPressed: () {
-                            Navigator.popUntil(context, (route) => route.isFirst);
-                          },
-                        ),
-                        Expanded(
-                          child: Text(
-                            widget.workContentDetailId,
-                            style: TextStyle(color: Colors.white, fontSize: 18),
-                          ),
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.list, color: Colors.white),
-                          onPressed: () {
-                            // 회차 목록으로 이동
-                          },
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.favorite, color: Colors.white),
-                          onPressed: () {
-                            // 선호작 기능 추가
-                          },
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.settings, color: Colors.white),
-                          onPressed: () {},
-                        ),
-                      ],
-                    ),
-                  ),
-                  Spacer(),
-                  Container(
-                    color: Colors.black54,
-                    padding: EdgeInsets.symmetric(vertical: 8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        IconButton(
-                          icon: Icon(Icons.arrow_back, color: Colors.white),
-                          onPressed: () {
-                            // 이전 화로 이동
-                          },
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.thumb_up, color: Colors.white),
-                          onPressed: () {
-                            // 추천 기능 추가
-                          },
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.comment, color: Colors.white),
-                          onPressed: () {
-                            // 댓글 기능 추가
-                          },
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.arrow_forward, color: Colors.white),
-                          onPressed: () {
-                            // 다음 화로 이동
-                          },
-                        ),
-                      ],
-                    ),
+                  NovelReadingTopToolbar(title: widget.workContent.title),
+                  _showComments ? CommentLayout() : Spacer(),
+                  NovelReadingBottomToolbar(
+                    onCommentIconClicked: () => _toggleComments(),
                   ),
                 ],
               ),

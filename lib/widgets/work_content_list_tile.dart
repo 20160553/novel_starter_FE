@@ -17,7 +17,7 @@ class WorkContentListTile extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => NovelReadingScreen(workContentDetailId: workContent.contentDetailId),
+            builder: (context) => NovelReadingScreen(workContent: workContent),
           ),
         );
       },
