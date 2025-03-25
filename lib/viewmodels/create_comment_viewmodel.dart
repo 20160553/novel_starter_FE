@@ -4,8 +4,8 @@ import 'package:novel_starter/models/comment.dart';
 import 'package:novel_starter/usecases/comment/create_comment_usecase.dart';
 import 'package:novel_starter/utils/utils.dart';
 
-class CreateCommentViewmodel extends StateNotifier<ApiState<Object?>>{
-  CreateCommentViewmodel(this._createCommentUsecase): super(ApiState.success(data: null));
+class CreateCommentViewModel extends StateNotifier<ApiState<Object?>>{
+  CreateCommentViewModel(this._createCommentUsecase): super(ApiState.success(data: null));
 
   final CreateCommentUsecase _createCommentUsecase;
 

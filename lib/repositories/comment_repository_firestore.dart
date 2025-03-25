@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:novel_starter/models/comment.dart';
 import 'package:novel_starter/repositories/comment_repository.dart';
+import 'package:novel_starter/utils/utils.dart';
 
 class CommentRepositoryFirestore implements CommentRepository {
   CommentRepositoryFirestore(this._firestore);
@@ -24,9 +25,21 @@ class CommentRepositoryFirestore implements CommentRepository {
   }
 
   @override
-  Future<List<Comment>> getCommentsByWorkContentId(String workContentId) {
-    // TODO: implement getCommentsByWorkContentId
-    throw UnimplementedError();
+  Future<List<Comment>> getCommentsByWorkContentId(String workContentId) async {
+    List<Comment> comments = [];
+    try {
+      await _commentRef.where("workContentId", isEqualTo: workContentId).get().then(
+        (querySnapshot) {
+          for (var docSnapshot in querySnapshot.docs) {
+            comments.add(Comment.fromJson(docSnapshot.data()));
+          }
+        },
+        onError: (e) => logger.e("Logger $e"),
+      );
+    } catch(e) {
+      rethrow;
+    }
+    return comments;
   }
 
   @override

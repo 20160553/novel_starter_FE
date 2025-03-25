@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:novel_starter/models/comment.dart';
 import 'package:novel_starter/widgets/comment_list_tile.dart';
 
 class CommentListView extends StatelessWidget {
-  const CommentListView({super.key});
+  const CommentListView(this._comments, {super.key});
+
+  final List<Comment> _comments;
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +26,10 @@ class CommentListView extends StatelessWidget {
             ),
             Expanded(
               child: ListView.builder(
-                itemCount: 10,
+                itemCount: _comments.length,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  return CommentListTile(comment: "$index",);
+                  return CommentListTile(comment: _comments[index],);
                 },
               ),
             )
