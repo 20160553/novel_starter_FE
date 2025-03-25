@@ -25,7 +25,6 @@ class WorkRepositoryFirestore implements WorkRepository {
       await worksRef.where("userId", isEqualTo: userId).get().then(
         (querySnapshot) {
           for (var docSnapshot in querySnapshot.docs) {
-            logger.d("Logger ${docSnapshot.id}: ${docSnapshot.data()}");
             works.add(Work.fromJson(docSnapshot.data()));
           }
         },
