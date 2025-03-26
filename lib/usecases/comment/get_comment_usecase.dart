@@ -6,7 +6,16 @@ class GetCommentUsecase {
 
   final CommentRepository _commentRepository;
 
-  Future<List<Comment>> execute(String workContentId) async {
-    return await _commentRepository.getCommentsByWorkContentId(workContentId);
+  Future<List<Comment>> getCommentsOrderByRegistration(String workContentId) async {
+    return await _commentRepository.getCommentsOrderByRegistration(workContentId);
+  }
+  Future<List<Comment>> getCommentsOrderByLatest(String workContentId) async {
+    return await _commentRepository.getCommentsOrderByLatest(workContentId);
+  }
+  Future<List<Comment>> getCommentsOrderByRecommendation(String workContentId) async {
+    return await _commentRepository.getCommentsOrderByRecommendation(workContentId);
+  }
+  Future<List<Comment>> getCommentsByUserId(String workContentId, String userId) async {
+    return await _commentRepository.getCommentsByUserId(workContentId, userId);
   }
 }

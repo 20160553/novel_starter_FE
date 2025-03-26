@@ -96,6 +96,7 @@ class _NovelReadingScreenState extends ConsumerState<NovelReadingScreen> {
                   NovelReadingTopToolbar(title: widget.workContent.title),
                   _showComments ? CommentLayout(widget.workContent) : Spacer(),
                   NovelReadingBottomToolbar(
+                    _showComments,
                     onCommentIconClicked: () => _toggleComments(),
                   ),
                 ],

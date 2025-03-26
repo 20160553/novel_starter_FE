@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 class NovelReadingBottomToolbar extends StatelessWidget {
-  const NovelReadingBottomToolbar({super.key, required this.onCommentIconClicked});
+  const NovelReadingBottomToolbar(this._showComments,
+      {super.key, required this.onCommentIconClicked});
 
+  final bool _showComments;
   final void Function() onCommentIconClicked;
 
   @override
@@ -26,7 +28,10 @@ class NovelReadingBottomToolbar extends StatelessWidget {
             },
           ),
           IconButton(
-            icon: Icon(Icons.comment, color: Colors.white),
+            icon: Icon(
+              Icons.comment,
+              color: _showComments ? Colors.blue : Colors.white,
+            ),
             onPressed: () {
               // 댓글 기능 추가
               onCommentIconClicked();
