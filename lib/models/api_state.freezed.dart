@@ -20,21 +20,21 @@ mixin _$ApiState<T> {
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function(T data) success,
-    required TResult Function(Exception error) error,
+    required TResult Function(Object error) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
     TResult? Function(T data)? success,
-    TResult? Function(Exception error)? error,
+    TResult? Function(Object error)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function(T data)? success,
-    TResult Function(Exception error)? error,
+    TResult Function(Object error)? error,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -126,7 +126,7 @@ class _$LoadingStateImpl<T> implements LoadingState<T> {
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function(T data) success,
-    required TResult Function(Exception error) error,
+    required TResult Function(Object error) error,
   }) {
     return loading();
   }
@@ -136,7 +136,7 @@ class _$LoadingStateImpl<T> implements LoadingState<T> {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
     TResult? Function(T data)? success,
-    TResult? Function(Exception error)? error,
+    TResult? Function(Object error)? error,
   }) {
     return loading?.call();
   }
@@ -146,7 +146,7 @@ class _$LoadingStateImpl<T> implements LoadingState<T> {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function(T data)? success,
-    TResult Function(Exception error)? error,
+    TResult Function(Object error)? error,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -266,7 +266,7 @@ class _$SuccessStateImpl<T> implements SuccessState<T> {
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function(T data) success,
-    required TResult Function(Exception error) error,
+    required TResult Function(Object error) error,
   }) {
     return success(data);
   }
@@ -276,7 +276,7 @@ class _$SuccessStateImpl<T> implements SuccessState<T> {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
     TResult? Function(T data)? success,
-    TResult? Function(Exception error)? error,
+    TResult? Function(Object error)? error,
   }) {
     return success?.call(data);
   }
@@ -286,7 +286,7 @@ class _$SuccessStateImpl<T> implements SuccessState<T> {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function(T data)? success,
-    TResult Function(Exception error)? error,
+    TResult Function(Object error)? error,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -348,7 +348,7 @@ abstract class _$$ErrorStateImplCopyWith<T, $Res> {
           _$ErrorStateImpl<T> value, $Res Function(_$ErrorStateImpl<T>) then) =
       __$$ErrorStateImplCopyWithImpl<T, $Res>;
   @useResult
-  $Res call({Exception error});
+  $Res call({Object error});
 }
 
 /// @nodoc
@@ -367,10 +367,7 @@ class __$$ErrorStateImplCopyWithImpl<T, $Res>
     Object? error = null,
   }) {
     return _then(_$ErrorStateImpl<T>(
-      error: null == error
-          ? _value.error
-          : error // ignore: cast_nullable_to_non_nullable
-              as Exception,
+      error: null == error ? _value.error : error,
     ));
   }
 }
@@ -381,7 +378,7 @@ class _$ErrorStateImpl<T> implements ErrorState<T> {
   const _$ErrorStateImpl({required this.error});
 
   @override
-  final Exception error;
+  final Object error;
 
   @override
   String toString() {
@@ -393,11 +390,12 @@ class _$ErrorStateImpl<T> implements ErrorState<T> {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ErrorStateImpl<T> &&
-            (identical(other.error, error) || other.error == error));
+            const DeepCollectionEquality().equals(other.error, error));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, error);
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(error));
 
   /// Create a copy of ApiState
   /// with the given fields replaced by the non-null parameter values.
@@ -412,7 +410,7 @@ class _$ErrorStateImpl<T> implements ErrorState<T> {
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function(T data) success,
-    required TResult Function(Exception error) error,
+    required TResult Function(Object error) error,
   }) {
     return error(this.error);
   }
@@ -422,7 +420,7 @@ class _$ErrorStateImpl<T> implements ErrorState<T> {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
     TResult? Function(T data)? success,
-    TResult? Function(Exception error)? error,
+    TResult? Function(Object error)? error,
   }) {
     return error?.call(this.error);
   }
@@ -432,7 +430,7 @@ class _$ErrorStateImpl<T> implements ErrorState<T> {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function(T data)? success,
-    TResult Function(Exception error)? error,
+    TResult Function(Object error)? error,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -477,10 +475,9 @@ class _$ErrorStateImpl<T> implements ErrorState<T> {
 }
 
 abstract class ErrorState<T> implements ApiState<T> {
-  const factory ErrorState({required final Exception error}) =
-      _$ErrorStateImpl<T>;
+  const factory ErrorState({required final Object error}) = _$ErrorStateImpl<T>;
 
-  Exception get error;
+  Object get error;
 
   /// Create a copy of ApiState
   /// with the given fields replaced by the non-null parameter values.

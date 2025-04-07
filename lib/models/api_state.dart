@@ -6,5 +6,5 @@ part 'api_state.freezed.dart';
 sealed class ApiState<T> with _$ApiState<T> {
   const factory ApiState.loading() = LoadingState<T>;
   const factory ApiState.success({required T data}) = SuccessState<T>;
-  const factory ApiState.error({required Exception error}) = ErrorState<T>;
+  const factory ApiState.error({required Object error}) = ErrorState<T>;
 }

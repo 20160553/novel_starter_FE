@@ -25,16 +25,20 @@ class _SideDrawerState extends ConsumerState<SideDrawer> {
     // UserViewModel을 여기서 초기화
     _userViewModel = ref.read(userViewModelProvider.notifier);
     final apiState = ref.read(userViewModelProvider);
-    apiState.when(loading: () {}, success: (data) {
-      username = data?.email ?? default_username;
-    }, error: (e) {});
+    apiState.when(
+        loading: () {},
+        success: (data) {
+          username = data?.email ?? default_username;
+        },
+        error: (e) {});
   }
 
   @override
   Widget build(BuildContext context) {
     ref.listen(userViewModelProvider, (previous, next) {
       if (next is SuccessState) {
-        final newStr = (next as SuccessState).data?.username ?? default_username;
+        final newStr =
+            (next as SuccessState).data?.username ?? default_username;
         print("newStr: $newStr");
         setState(() {
           username = newStr;
@@ -67,6 +71,13 @@ class _SideDrawerState extends ConsumerState<SideDrawer> {
           ),
           ListTile(
             leading: Icon(Icons.book),
+            title: Text('내 서재'),
+            onTap: () {
+              // 내 서재 클릭 시 동작
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.book),
             title: Text('작품관리'),
             onTap: () {
               // 작품관리 클릭 시 동작
@@ -79,28 +90,27 @@ class _SideDrawerState extends ConsumerState<SideDrawer> {
               );
             },
           ),
-          if (username == default_username)
-            ListTile(
-              leading: Icon(Icons.login),
-              title: Text('로그인'),
-              onTap: () {
-                // 로그인 클릭 시 동작
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => LoginScreen(),
-                  ),
-                );
-              },
-            ),
-          if (username != default_username)
-            ListTile(
-              leading: Icon(Icons.logout),
-              title: Text('로그아웃'),
-              onTap: () {
-                _userViewModel.logout();
-              },
-            ),
+          username == default_username
+              ? ListTile(
+                  leading: Icon(Icons.login),
+                  title: Text('로그인'),
+                  onTap: () {
+                    // 로그인 클릭 시 동작
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LoginScreen(),
+                      ),
+                    );
+                  },
+                )
+              : ListTile(
+                  leading: Icon(Icons.logout),
+                  title: Text('로그아웃'),
+                  onTap: () {
+                    _userViewModel.logout();
+                  },
+                ),
           ListTile(
             leading: Icon(Icons.settings),
             title: Text('설정'),

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:novel_starter/models/favorite.dart';
 
 class NovelReadingTopToolbar extends StatelessWidget {
-  const NovelReadingTopToolbar({super.key, required this.title});
+  const NovelReadingTopToolbar({super.key, required this.title, required this.onToggleFavorite});
 
   final String title;
+  final void Function() onToggleFavorite;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -33,6 +35,7 @@ class NovelReadingTopToolbar extends StatelessWidget {
             icon: Icon(Icons.favorite, color: Colors.white),
             onPressed: () {
               // 선호작 기능 추가
+              onToggleFavorite();
             },
           ),
           IconButton(
