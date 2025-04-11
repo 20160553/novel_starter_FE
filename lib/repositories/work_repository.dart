@@ -1,6 +1,7 @@
 import 'package:novel_starter/models/work.dart';
 
 abstract interface class WorkRepository {
+  Future<List<Work>> getWorksSortedByTimeUsingWork(Work? last);
   Future<List<Work>> getWorksByUserId(String userId);
   Future<Work?> getWorkByWorkId(String workId);
   Future<void> createWork(Work work);

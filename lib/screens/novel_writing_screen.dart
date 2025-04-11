@@ -4,7 +4,7 @@ import 'package:novel_starter/models/work.dart';
 import 'package:novel_starter/models/work_content.dart';
 import 'package:novel_starter/models/work_content_detail.dart';
 import 'package:novel_starter/providers/viewmodels/create_work_content_viewmodel_provider.dart';
-import 'package:novel_starter/providers/viewmodels/manage_work_viewmodel_provider.dart';
+import 'package:novel_starter/providers/viewmodels/work/manage_work_viewmodel_provider.dart';
 import 'package:novel_starter/providers/viewmodels/user_viewmodel_provider.dart';
 import 'package:novel_starter/utils/utils.dart';
 import 'package:novel_starter/viewmodels/create_work_content_viewmodel.dart';

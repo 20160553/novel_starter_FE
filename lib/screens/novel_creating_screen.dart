@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:novel_starter/models/work.dart';
-import 'package:novel_starter/providers/viewmodels/create_work_viewmodel_provider.dart';
+import 'package:novel_starter/providers/viewmodels/work/create_work_viewmodel_provider.dart';
 import 'package:novel_starter/providers/viewmodels/user_viewmodel_provider.dart';
 import 'package:novel_starter/utils/utils.dart';
 import 'package:novel_starter/viewmodels/create_work_viewmodel.dart';

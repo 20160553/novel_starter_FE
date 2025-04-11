@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:novel_starter/constants/integer.dart';
 import 'package:novel_starter/models/work.dart';
 import 'package:novel_starter/repositories/work_repository.dart';
 import 'package:novel_starter/utils/utils.dart';
@@ -57,5 +58,33 @@ class WorkRepositoryFirestore implements WorkRepository {
     }
     if (data == null) return null;
     return Work.fromJson(data);
+  }
+
+  @override
+  Future<List<Work>> getWorksSortedByTimeUsingWork(Work? last) async {
+    List<Work> works = [];
+    var query = worksRef.orderBy("updatedAt", descending: true);
+    if (last != null) {
+      query = query.startAfterDocument(await worksRef.doc(last.workId).get());
+    }
+    query = query.limit(LIST_CALL_SIZE);
+    
+    logger.d("Last $last");
+    
+    try {
+      await query.get().then(
+        (querySnapshot) {
+          for (var docSnapshot in querySnapshot.docs) {
+            works.add(Work.fromJson(docSnapshot.data()));
+          }
+        },
+        onError: (e) => logger.e("Logger $e"),
+      );
+      logger.d("Works Limit: ${works}");
+      return works;
+    } catch (e) {
+      logger.e("Logger catch $e");
+      rethrow;
+    }
   }
 }

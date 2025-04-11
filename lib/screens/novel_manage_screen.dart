@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:novel_starter/models/work.dart';
-import 'package:novel_starter/providers/viewmodels/manage_work_viewmodel_provider.dart';
+import 'package:novel_starter/providers/viewmodels/work/manage_work_viewmodel_provider.dart';
 import 'package:novel_starter/providers/viewmodels/user_viewmodel_provider.dart';
 import 'package:novel_starter/screens/novel_detail_screen.dart';
 import 'package:novel_starter/viewmodels/manage_work_viewmodel.dart';
@@ -51,20 +51,20 @@ class _NovelManageScreen extends ConsumerState<NovelManageScreen> {
         padding: const EdgeInsets.all(16.0),
         itemCount: works.length, // 등록된 작품 수 (예시)
         itemBuilder: (context, index) {
-          return InkWell(
-            onTap: () {
-              Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => NovelDetailScreen(
-                          work: works[index],
-                        ),
-                      ),
-                    );
-            },
-            child: Card(
-              margin: const EdgeInsets.only(bottom: 16.0),
-              elevation: 4.0,
+          return Card(
+            margin: const EdgeInsets.only(bottom: 16.0),
+            elevation: 4.0,
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => NovelDetailScreen(
+                      work: works[index],
+                    ),
+                  ),
+                );
+              },
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -103,41 +103,42 @@ class _NovelManageScreen extends ConsumerState<NovelManageScreen> {
                     Column(
                       children: [
                         Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            // 회차 쓰기 로직
-                          },
-                          child: Text('회차 쓰기'),
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                // 회차 쓰기 로직
+                              },
+                              child: Text('회차 쓰기'),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                // 소설 관리 로직
+                              },
+                              child: Text('소설 관리'),
+                            ),
+                          ],
                         ),
-                        ElevatedButton(
-                          onPressed: () {
-                            // 소설 관리 로직
-                          },
-                          child: Text('소설 관리'),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                // 소설 통계 로직
+                              },
+                              child: Text('소설 통계'),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                // 소설 삭제 로직
+                                _manageWorkViewModel.deleteWork(works[index]);
+                              },
+                              child: Text('소설 삭제'),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            // 소설 통계 로직
-                          },
-                          child: Text('소설 통계'),
-                        ),ElevatedButton(
-                          onPressed: () {
-                            // 소설 삭제 로직
-                            _manageWorkViewModel.deleteWork(works[index]);
-                          },
-                          child: Text('소설 삭제'),
-                        ),
-                      ],
-                    ),
                       ],
                     )
-                    
                   ],
                 ),
               ),

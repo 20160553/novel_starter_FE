@@ -4,6 +4,8 @@ import 'package:novel_starter/models/api_state.dart';
 import 'package:novel_starter/providers/viewmodels/user_viewmodel_provider.dart';
 import 'package:novel_starter/screens/login_screen.dart';
 import 'package:novel_starter/screens/novel_manage_screen.dart';
+import 'package:novel_starter/screens/study_screen.dart';
+import 'package:novel_starter/screens/book_shelf_screen.dart';
 import 'package:novel_starter/viewmodels/user_viewmodel.dart';
 
 const default_username = "메뉴";
@@ -73,7 +75,26 @@ class _SideDrawerState extends ConsumerState<SideDrawer> {
             leading: Icon(Icons.book),
             title: Text('내 서재'),
             onTap: () {
-              // 내 서재 클릭 시 동작
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => StudyScreen(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.book),
+            title: Text('무료 소설'),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => BookShelfScreen(),
+                ),
+              );
             },
           ),
           ListTile(

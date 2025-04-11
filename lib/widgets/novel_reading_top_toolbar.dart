@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:novel_starter/models/favorite.dart';
 
 class NovelReadingTopToolbar extends StatelessWidget {
   const NovelReadingTopToolbar({super.key, required this.title, required this.onToggleFavorite});

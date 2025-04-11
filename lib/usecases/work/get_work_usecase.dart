@@ -13,4 +13,8 @@ class GetWorkUsecase {
   Future<Work?> getWorkByWorkId(String workId) async {
     return _workRepository.getWorkByWorkId(workId);
   }
+
+  Future<List<Work>> getWorksSortedByTimeUsingWork(Work? last) async {
+    return _workRepository.getWorksSortedByTimeUsingWork(last);
+  }
 }

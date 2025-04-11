@@ -11,3 +11,5 @@ const emailLabelString = "이메일";
 const passwordLabelString = "비밀번호";
 const passwordHintString = "6글자 이상";
 const emptyEmailOrPassword = '이메일과 비밀번호를 입력해주세요';
+
+const studyScreenString = "내 서재";
