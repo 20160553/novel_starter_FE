@@ -6,7 +6,7 @@ class ToggleFavoriteUsecase {
   
   final FavoriteRepository _favoriteRepository;
 
-  Future<void> execute(Favorite favorite) async {
+  Future<bool> execute(Favorite favorite) async {
     return await _favoriteRepository.toogleFavorite(favorite);
   }
 }

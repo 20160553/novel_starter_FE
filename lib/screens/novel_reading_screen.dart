@@ -71,6 +71,17 @@ class _NovelReadingScreenState extends ConsumerState<NovelReadingScreen> {
     });
   }
 
+  void _toggleFavorite() {
+    _toolbarTimer?.cancel();
+    final userId = _userViewModel.currentUid;
+    if (userId != null) {
+      _toggleFavoriteViewModel.toggleFavorite(Favorite(
+          userId: userId,
+          workId: widget.workContent.workId,
+          favoriteId: uuid.v4()));
+    }
+  }
+
   @override
   void dispose() {
     _toolbarTimer?.cancel();
@@ -114,12 +125,7 @@ class _NovelReadingScreenState extends ConsumerState<NovelReadingScreen> {
                   NovelReadingTopToolbar(
                     title: widget.workContent.title,
                     onToggleFavorite: () {
-                      final userId = _userViewModel.currentUid;
-                      if (userId != null) {
-                        _toggleFavoriteViewModel.toggleFavorite(
-                          Favorite(userId: userId, workId: widget.workContent.workId, favoriteId: uuid.v4())
-                        );
-                      }
+                      _toggleFavorite();
                     },
                   ),
                   _showComments ? CommentLayout(widget.workContent) : Spacer(),

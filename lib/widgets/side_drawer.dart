@@ -64,26 +64,14 @@ class _SideDrawerState extends ConsumerState<SideDrawer> {
               ),
             ),
           ),
-          ListTile(
-            leading: Icon(Icons.person),
-            title: Text('회원정보'),
-            onTap: () {
-              // 회원정보 클릭 시 동작
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.book),
-            title: Text('내 서재'),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => StudyScreen(),
-                ),
-              );
-            },
-          ),
+          if (username != default_username)
+            ListTile(
+              leading: Icon(Icons.person),
+              title: Text('회원정보'),
+              onTap: () {
+                // 회원정보 클릭 시 동작
+              },
+            ),
           ListTile(
             leading: Icon(Icons.book),
             title: Text('무료 소설'),
@@ -97,20 +85,35 @@ class _SideDrawerState extends ConsumerState<SideDrawer> {
               );
             },
           ),
-          ListTile(
-            leading: Icon(Icons.book),
-            title: Text('작품관리'),
-            onTap: () {
-              // 작품관리 클릭 시 동작
-              Navigator.pop(context);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => NovelManageScreen(),
-                ),
-              );
-            },
-          ),
+          if (username != default_username)
+            ListTile(
+              leading: Icon(Icons.book),
+              title: Text('내 서재'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => StudyScreen(),
+                  ),
+                );
+              },
+            ),
+          if (username != default_username)
+            ListTile(
+              leading: Icon(Icons.book),
+              title: Text('작품관리'),
+              onTap: () {
+                // 작품관리 클릭 시 동작
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => NovelManageScreen(),
+                  ),
+                );
+              },
+            ),
           username == default_username
               ? ListTile(
                   leading: Icon(Icons.login),

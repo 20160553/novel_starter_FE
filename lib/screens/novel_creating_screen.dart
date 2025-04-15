@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:novel_starter/constants/string.dart';
+import 'package:novel_starter/models/api_state.dart';
 import 'package:novel_starter/models/work.dart';
 import 'package:novel_starter/providers/viewmodels/work/create_work_viewmodel_provider.dart';
 import 'package:novel_starter/providers/viewmodels/user_viewmodel_provider.dart';
@@ -28,13 +30,21 @@ class _NovelCreatingScreen extends ConsumerState<NovelCreatingScreen> {
   @override
   void initState() {
     super.initState();
-    
+    _userViewModel = ref.read(userViewModelProvider.notifier);
+    _createWorkViewModel = ref.read(createWorkViewModelProvider.notifier);
   }
 
   @override
   Widget build(BuildContext context) {
-    _userViewModel = ref.read(userViewModelProvider.notifier);
-    _createWorkViewModel = ref.read(createWorkViewModelProvider.notifier);
+    
+    ref.listen(createWorkViewModelProvider, (prevState, newState) {
+      if (newState is SuccessState && newState.data != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(workCreateSuccessString), duration: Duration(seconds: 1),),
+                  );
+        Navigator.pop(context);
+      }
+    });
 
     return Scaffold(
       appBar: AppBar(

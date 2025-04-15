@@ -9,15 +9,16 @@ class FavoriteRepositoryFirestore implements FavoriteRepository {
   late final _favoriteRef = _firestore.collection('favorites');
 
   @override
-  Future<void> toogleFavorite(Favorite favorite) async {
+  Future<bool> toogleFavorite(Favorite favorite) async {
     final query = _favoriteRef
         .where("userId", isEqualTo: favorite.userId)
         .where("workId", isEqualTo: favorite.workId);
-
+    bool result = false;
     try {
-      query.get().then((querySnapShot) {
+      await query.get().then((querySnapShot) {
         if (querySnapShot.size == 0) {
           _favoriteRef.doc(favorite.favoriteId).set(favorite.toJson());
+          result = true;
         } else {
           for (var docSnapshot in querySnapShot.docs) {
             Favorite result = Favorite.fromJson(docSnapshot.data());
@@ -28,6 +29,7 @@ class FavoriteRepositoryFirestore implements FavoriteRepository {
     } catch (e) {
       rethrow;
     }
+    return result;
   }
 
   @override
