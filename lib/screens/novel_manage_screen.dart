@@ -94,6 +94,7 @@ class _NovelManageScreen extends ConsumerState<NovelManageScreen> {
                               Text('등록된 회차: ${index + 10}'),
                               Text('조회수: ${index * 1000 + 500}'),
                               Text('추천수: ${index * 50 + 20}'),
+                              Text('선호작 수: ${works[index].favoriteCount}'),
                             ],
                           ),
                         ),

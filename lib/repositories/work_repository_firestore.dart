@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:novel_starter/constants/integer.dart';
+import 'package:novel_starter/entities/work_entity.dart';
 import 'package:novel_starter/models/work.dart';
 import 'package:novel_starter/repositories/work_repository.dart';
 import 'package:novel_starter/utils/utils.dart';
@@ -9,6 +10,16 @@ class WorkRepositoryFirestore implements WorkRepository {
 
   final FirebaseFirestore _firestore;
   late final worksRef = _firestore.collection("works");
+  late final favoriteRef = _firestore.collection("favorites");
+
+  Future<int> _getFavoriteCount(Work work) async {
+    try {
+      final favoriteCountResult = await favoriteRef.where("workId", isEqualTo: work.workId).count().get();
+      return favoriteCountResult.count ?? 0;
+    } catch (e) {
+      rethrow;
+    }
+  }
 
   @override
   Future<void> createWork(Work work) async {
@@ -31,11 +42,15 @@ class WorkRepositoryFirestore implements WorkRepository {
         },
         onError: (e) => logger.e("Logger $e"),
       );
-      return works;
     } catch (e) {
       logger.e("Logger catch $e");
       rethrow;
     }
+    
+    return await Future.wait(works.map((work) async{
+      int favoriteCount = await _getFavoriteCount(work);
+      return work.copyWith(favoriteCount: favoriteCount);
+    }));
   }
 
   @override
@@ -50,14 +65,22 @@ class WorkRepositoryFirestore implements WorkRepository {
   @override
   Future<Work?> getWorkByWorkId(String workId) async {
     final Map<String, dynamic>? data;
+    WorkEntity? workEntity = null;
+    int favoriteCount = 0;
+
     try {
-      final result = await worksRef.doc(workId).get();
-      data = result.data();
+      final workResult = await worksRef.doc(workId).get();
+      final favoriteCountResult = await favoriteRef.where("workId", isEqualTo: workId).count().get();
+      
+      data = workResult.data();
+      workEntity = data == null ? null : WorkEntity.fromJson(data);
+      favoriteCount = favoriteCountResult.count ?? 0;
     } catch (e) {
       rethrow;
     }
-    if (data == null) return null;
-    return Work.fromJson(data);
+    if (workEntity == null) return null;
+    Work work = Work.fromJson(workEntity.toJson());
+    return work.copyWith(favoriteCount: await _getFavoriteCount(work));
   }
 
   @override
@@ -69,8 +92,6 @@ class WorkRepositoryFirestore implements WorkRepository {
     }
     query = query.limit(LIST_CALL_SIZE);
     
-    logger.d("Last $last");
-    
     try {
       await query.get().then(
         (querySnapshot) {
@@ -80,11 +101,14 @@ class WorkRepositoryFirestore implements WorkRepository {
         },
         onError: (e) => logger.e("Logger $e"),
       );
-      logger.d("Works Limit: ${works}");
-      return works;
     } catch (e) {
       logger.e("Logger catch $e");
       rethrow;
     }
+    return await Future.wait(works.map((work) async{
+      int favoriteCount = await _getFavoriteCount(work);
+      return work.copyWith(favoriteCount: favoriteCount);
+    }));
   }
+  
 }

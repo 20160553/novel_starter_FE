@@ -52,6 +52,7 @@ class WorkCard extends StatelessWidget {
                               Text('등록된 회차: ${10}'),
                               Text('조회수: ${ 1000 + 500}'),
                               Text('추천수: ${ 50 + 20}'),
+                              Text('선호작 수: ${work.favoriteCount}'),
                             ],
                           ),
                         ),

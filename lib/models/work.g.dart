@@ -9,6 +9,7 @@ part of 'work.dart';
 _$WorkImpl _$$WorkImplFromJson(Map<String, dynamic> json) => _$WorkImpl(
       title: json['title'] as String,
       description: json['description'] as String,
+      favoriteCount: (json['favoriteCount'] as num?)?.toInt() ?? 0,
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: DateTime.parse(json['updatedAt'] as String),
       workId: json['workId'] as String,
@@ -20,6 +21,7 @@ Map<String, dynamic> _$$WorkImplToJson(_$WorkImpl instance) =>
     <String, dynamic>{
       'title': instance.title,
       'description': instance.description,
+      'favoriteCount': instance.favoriteCount,
       'createdAt': instance.createdAt.toIso8601String(),
       'updatedAt': instance.updatedAt.toIso8601String(),
       'workId': instance.workId,

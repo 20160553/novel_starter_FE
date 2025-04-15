@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:novel_starter/models/api_state.dart';
 import 'package:novel_starter/models/work.dart';
 import 'package:novel_starter/providers/viewmodels/work_detail_viewmodel_provider.dart';
-import 'package:novel_starter/utils/mockup.dart';
 import 'package:novel_starter/viewmodels/work_detail_viewmodel.dart';
 
 class WorkInfoCard extends ConsumerStatefulWidget {
@@ -46,7 +44,7 @@ class _WorkInfoCard extends ConsumerState<WorkInfoCard> {
         Stack(
           children: [
             Image.network(
-              work?.thumbnailImgUrl ?? imageUrlMockup,
+              work.thumbnailImgUrl,
               width: double.infinity,
               height: 200,
               fit: BoxFit.cover,
@@ -55,7 +53,7 @@ class _WorkInfoCard extends ConsumerState<WorkInfoCard> {
               bottom: 16,
               left: 16,
               child: Text(
-                work?.title ?? widget.work.title,
+                work.title,
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -86,6 +84,10 @@ class _WorkInfoCard extends ConsumerState<WorkInfoCard> {
               ),
               Text(
                 '추천: 100만',
+                style: TextStyle(fontSize: 18),
+              ),
+              Text(
+                '선호작: ${work.favoriteCount}',
                 style: TextStyle(fontSize: 18),
               ),
             ],

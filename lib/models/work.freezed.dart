@@ -24,6 +24,7 @@ mixin _$Work {
   String get description =>
       throw _privateConstructorUsedError; // required int genreId,
 // required int ageId,
+  int get favoriteCount => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime get updatedAt => throw _privateConstructorUsedError;
   String get workId => throw _privateConstructorUsedError;
@@ -47,6 +48,7 @@ abstract class $WorkCopyWith<$Res> {
   $Res call(
       {String title,
       String description,
+      int favoriteCount,
       DateTime createdAt,
       DateTime updatedAt,
       String workId,
@@ -71,6 +73,7 @@ class _$WorkCopyWithImpl<$Res, $Val extends Work>
   $Res call({
     Object? title = null,
     Object? description = null,
+    Object? favoriteCount = null,
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? workId = null,
@@ -86,6 +89,10 @@ class _$WorkCopyWithImpl<$Res, $Val extends Work>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      favoriteCount: null == favoriteCount
+          ? _value.favoriteCount
+          : favoriteCount // ignore: cast_nullable_to_non_nullable
+              as int,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -120,6 +127,7 @@ abstract class _$$WorkImplCopyWith<$Res> implements $WorkCopyWith<$Res> {
   $Res call(
       {String title,
       String description,
+      int favoriteCount,
       DateTime createdAt,
       DateTime updatedAt,
       String workId,
@@ -141,6 +149,7 @@ class __$$WorkImplCopyWithImpl<$Res>
   $Res call({
     Object? title = null,
     Object? description = null,
+    Object? favoriteCount = null,
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? workId = null,
@@ -156,6 +165,10 @@ class __$$WorkImplCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      favoriteCount: null == favoriteCount
+          ? _value.favoriteCount
+          : favoriteCount // ignore: cast_nullable_to_non_nullable
+              as int,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -182,15 +195,17 @@ class __$$WorkImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$WorkImpl implements _Work {
+class _$WorkImpl extends _Work {
   _$WorkImpl(
       {required this.title,
       required this.description,
+      this.favoriteCount = 0,
       required this.createdAt,
       required this.updatedAt,
       required this.workId,
       required this.userId,
-      this.thumbnailImgUrl = imageUrlMockup});
+      this.thumbnailImgUrl = imageUrlMockup})
+      : super._();
 
   factory _$WorkImpl.fromJson(Map<String, dynamic> json) =>
       _$$WorkImplFromJson(json);
@@ -201,6 +216,9 @@ class _$WorkImpl implements _Work {
   final String description;
 // required int genreId,
 // required int ageId,
+  @override
+  @JsonKey()
+  final int favoriteCount;
   @override
   final DateTime createdAt;
   @override
@@ -215,7 +233,7 @@ class _$WorkImpl implements _Work {
 
   @override
   String toString() {
-    return 'Work(title: $title, description: $description, createdAt: $createdAt, updatedAt: $updatedAt, workId: $workId, userId: $userId, thumbnailImgUrl: $thumbnailImgUrl)';
+    return 'Work(title: $title, description: $description, favoriteCount: $favoriteCount, createdAt: $createdAt, updatedAt: $updatedAt, workId: $workId, userId: $userId, thumbnailImgUrl: $thumbnailImgUrl)';
   }
 
   @override
@@ -226,6 +244,8 @@ class _$WorkImpl implements _Work {
             (identical(other.title, title) || other.title == title) &&
             (identical(other.description, description) ||
                 other.description == description) &&
+            (identical(other.favoriteCount, favoriteCount) ||
+                other.favoriteCount == favoriteCount) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -238,8 +258,8 @@ class _$WorkImpl implements _Work {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, title, description, createdAt,
-      updatedAt, workId, userId, thumbnailImgUrl);
+  int get hashCode => Object.hash(runtimeType, title, description,
+      favoriteCount, createdAt, updatedAt, workId, userId, thumbnailImgUrl);
 
   /// Create a copy of Work
   /// with the given fields replaced by the non-null parameter values.
@@ -257,15 +277,17 @@ class _$WorkImpl implements _Work {
   }
 }
 
-abstract class _Work implements Work {
+abstract class _Work extends Work {
   factory _Work(
       {required final String title,
       required final String description,
+      final int favoriteCount,
       required final DateTime createdAt,
       required final DateTime updatedAt,
       required final String workId,
       required final String userId,
       final String thumbnailImgUrl}) = _$WorkImpl;
+  _Work._() : super._();
 
   factory _Work.fromJson(Map<String, dynamic> json) = _$WorkImpl.fromJson;
 
@@ -274,6 +296,8 @@ abstract class _Work implements Work {
   @override
   String get description; // required int genreId,
 // required int ageId,
+  @override
+  int get favoriteCount;
   @override
   DateTime get createdAt;
   @override
