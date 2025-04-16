@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:novel_starter/providers/viewmodels/favorite/toggle_favorite_viewmodel_provider.dart';
+import 'package:novel_starter/models/work_content.dart';
+import 'package:novel_starter/providers/viewmodels/favorite/favorite_viewmodel_provider.dart';
+import 'package:novel_starter/providers/viewmodels/user_viewmodel_provider.dart';
+import 'package:novel_starter/viewmodels/favorite/favorite_viewmodel.dart';
+import 'package:novel_starter/viewmodels/user_viewmodel.dart';
 
 class NovelReadingTopToolbar extends ConsumerStatefulWidget {
   const NovelReadingTopToolbar(
-      {super.key, required this.title, required this.onToggleFavorite});
+      {super.key, required this.workContent, required this.onToggleFavorite});
 
-  final String title;
+  final WorkContent workContent;
   final void Function() onToggleFavorite;
 
   @override
@@ -17,6 +21,22 @@ class NovelReadingTopToolbar extends ConsumerStatefulWidget {
 
 class _NovelReadingTopToolbar extends ConsumerState<NovelReadingTopToolbar> {
   List<bool> _toggleButtonsStates = [false];
+  late UserViewModel _userViewModel;
+  late FavoriteViewModel _toggleFavoriteViewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    _userViewModel = ref.read(userViewModelProvider.notifier);
+    _toggleFavoriteViewModel =
+        ref.read(toggleFavoriteViewModelProvider.notifier);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final userId = _userViewModel.currentUid;
+      if (userId != null) {
+        _toggleFavoriteViewModel.checkFavorite(userId, widget.workContent.workId);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +61,7 @@ class _NovelReadingTopToolbar extends ConsumerState<NovelReadingTopToolbar> {
           ),
           Expanded(
             child: Text(
-              widget.title,
+              widget.workContent.title,
               style: TextStyle(color: Colors.white, fontSize: 18),
             ),
           ),

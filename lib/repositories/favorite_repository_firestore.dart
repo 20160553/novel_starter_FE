@@ -37,4 +37,21 @@ class FavoriteRepositoryFirestore implements FavoriteRepository {
     // TODO: implement getFavoritesByUserId
     throw UnimplementedError();
   }
+
+  @override
+  Future<bool> checkFavorite(String userId, String workId) async {
+    bool result = false;
+    try {
+      final snapshot = await _favoriteRef
+          .where("userId", isEqualTo: userId)
+          .where("workId", isEqualTo: workId)
+          .count()
+          .get();
+        
+        result = (snapshot.count ?? 0) > 0;
+    } catch (e) {
+      rethrow;
+    }
+    return result;
+  }
 }

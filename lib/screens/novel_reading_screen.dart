@@ -5,11 +5,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:novel_starter/models/favorite.dart';
 import 'package:novel_starter/models/work_content.dart';
 import 'package:novel_starter/models/work_content_detail.dart';
-import 'package:novel_starter/providers/viewmodels/favorite/toggle_favorite_viewmodel_provider.dart';
+import 'package:novel_starter/providers/viewmodels/favorite/favorite_viewmodel_provider.dart';
 import 'package:novel_starter/providers/viewmodels/get_work_content_detail_viewmodel_provider.dart';
 import 'package:novel_starter/providers/viewmodels/user_viewmodel_provider.dart';
 import 'package:novel_starter/utils/utils.dart';
-import 'package:novel_starter/viewmodels/favorite/toggle_favorite_viewmodel.dart';
+import 'package:novel_starter/viewmodels/favorite/favorite_viewmodel.dart';
 import 'package:novel_starter/viewmodels/get_work_content_detail_viewmodel.dart';
 import 'package:novel_starter/viewmodels/user_viewmodel.dart';
 import 'package:novel_starter/widgets/comment_layout.dart';
@@ -31,7 +31,7 @@ class _NovelReadingScreenState extends ConsumerState<NovelReadingScreen> {
 
   late GetWorkContentDetailViewmodel _getWorkContentDetailViewmodel;
   late UserViewModel _userViewModel;
-  late ToggleFavoriteViewModel _toggleFavoriteViewModel;
+  late FavoriteViewModel _toggleFavoriteViewModel;
 
   @override
   void initState() {
@@ -123,7 +123,7 @@ class _NovelReadingScreenState extends ConsumerState<NovelReadingScreen> {
               Column(
                 children: [
                   NovelReadingTopToolbar(
-                    title: widget.workContent.title,
+                    workContent: widget.workContent,
                     onToggleFavorite: () {
                       _toggleFavorite();
                     },
