@@ -40,7 +40,7 @@ class _NovelReadingScreenState extends ConsumerState<NovelReadingScreen> {
         ref.read(getWorkContentDetailViewmodelProvider.notifier);
     _userViewModel = ref.read(userViewModelProvider.notifier);
     _toggleFavoriteViewModel =
-        ref.read(toggleFavoriteViewModelProvider.notifier);
+        ref.read(favoriteViewModelProvider.notifier);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _getWorkContentDetailViewmodel
           .getWorkContentDetailById(widget.workContent.contentDetailId);
@@ -54,7 +54,7 @@ class _NovelReadingScreenState extends ConsumerState<NovelReadingScreen> {
     });
 
     if (_showToolbar) {
-      _toolbarTimer?.cancel();
+      _timerCancel();
       _toolbarTimer = Timer(Duration(seconds: 3), () {
         setState(() {
           _showToolbar = false;
@@ -64,7 +64,7 @@ class _NovelReadingScreenState extends ConsumerState<NovelReadingScreen> {
   }
 
   void _toggleComments() {
-    _toolbarTimer?.cancel();
+    _timerCancel();
     setState(() {
       _showComments = !_showComments;
       _showToolbar = true;
@@ -72,7 +72,7 @@ class _NovelReadingScreenState extends ConsumerState<NovelReadingScreen> {
   }
 
   void _toggleFavorite() {
-    _toolbarTimer?.cancel();
+    _timerCancel();
     final userId = _userViewModel.currentUid;
     if (userId != null) {
       _toggleFavoriteViewModel.toggleFavorite(Favorite(
@@ -82,9 +82,13 @@ class _NovelReadingScreenState extends ConsumerState<NovelReadingScreen> {
     }
   }
 
+  void _timerCancel() {
+    _toolbarTimer?.cancel();
+  }
+
   @override
   void dispose() {
-    _toolbarTimer?.cancel();
+    _timerCancel();
     super.dispose();
   }
 
@@ -132,6 +136,10 @@ class _NovelReadingScreenState extends ConsumerState<NovelReadingScreen> {
                   NovelReadingBottomToolbar(
                     _showComments,
                     onCommentIconClicked: () => _toggleComments(),
+                    workContent: widget.workContent,
+                    onToggleLike: () {
+                      _timerCancel();
+                    },
                   ),
                 ],
               ),

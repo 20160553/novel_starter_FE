@@ -20,20 +20,20 @@ class NovelReadingTopToolbar extends ConsumerStatefulWidget {
 }
 
 class _NovelReadingTopToolbar extends ConsumerState<NovelReadingTopToolbar> {
-  List<bool> _toggleButtonsStates = [false];
+  List<bool> _favoriteStates = [false];
   late UserViewModel _userViewModel;
-  late FavoriteViewModel _toggleFavoriteViewModel;
+  late FavoriteViewModel _favoriteViewModel;
 
   @override
   void initState() {
     super.initState();
     _userViewModel = ref.read(userViewModelProvider.notifier);
-    _toggleFavoriteViewModel =
-        ref.read(toggleFavoriteViewModelProvider.notifier);
+    _favoriteViewModel =
+        ref.read(favoriteViewModelProvider.notifier);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final userId = _userViewModel.currentUid;
       if (userId != null) {
-        _toggleFavoriteViewModel.checkFavorite(userId, widget.workContent.workId);
+        _favoriteViewModel.checkFavorite(userId, widget.workContent.workId);
       }
     });
   }
@@ -43,10 +43,10 @@ class _NovelReadingTopToolbar extends ConsumerState<NovelReadingTopToolbar> {
     final defaultColor = Colors.white;
     final selectedColor = Colors.blue;
 
-    _toggleButtonsStates = ref.watch(toggleFavoriteViewModelProvider).when(
-        loading: () => _toggleButtonsStates,
-        success: (data) => data == null ? _toggleButtonsStates : [data],
-        error: (e) => _toggleButtonsStates);
+    _favoriteStates = ref.watch(favoriteViewModelProvider).when(
+        loading: () => _favoriteStates,
+        success: (data) => data == null ? _favoriteStates : [data],
+        error: (e) => _favoriteStates);
 
     return Container(
       color: Colors.black54,
@@ -72,11 +72,8 @@ class _NovelReadingTopToolbar extends ConsumerState<NovelReadingTopToolbar> {
             },
           ),
           ToggleButtons(
-            isSelected: _toggleButtonsStates,
+            isSelected: _favoriteStates,
             onPressed: (idx) {
-              setState(() {
-                _toggleButtonsStates[idx] = !_toggleButtonsStates[idx];
-              });
               widget.onToggleFavorite();
             },
             renderBorder: false,
