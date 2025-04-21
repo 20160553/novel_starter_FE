@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:novel_starter/screens/novel_detail_screen.dart';
-import 'package:novel_starter/utils/mockup.dart';
 import 'package:novel_starter/widgets/new_dialog.dart';
 import 'package:novel_starter/widgets/side_drawer.dart';
 

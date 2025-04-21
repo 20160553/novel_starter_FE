@@ -4,9 +4,12 @@ import 'package:novel_starter/models/like.dart';
 import 'package:novel_starter/models/work_content.dart';
 import 'package:novel_starter/providers/viewmodels/like/like_viewmodel_provider.dart';
 import 'package:novel_starter/providers/viewmodels/user_viewmodel_provider.dart';
+import 'package:novel_starter/providers/viewmodels/work_content/get_prev_next_work_content_viewmodel_provider.dart';
+import 'package:novel_starter/screens/novel_reading_screen.dart';
 import 'package:novel_starter/utils/utils.dart';
 import 'package:novel_starter/viewmodels/like/like_viewmodel.dart';
 import 'package:novel_starter/viewmodels/user_viewmodel.dart';
+import 'package:novel_starter/viewmodels/work_content/get_prev_next_work_content_viewmodel.dart';
 
 class NovelReadingBottomToolbar extends ConsumerStatefulWidget {
   const NovelReadingBottomToolbar(this.showComments,
@@ -30,18 +33,25 @@ class _NovelReadingTopToolbar extends ConsumerState<NovelReadingBottomToolbar> {
   List<bool> _likeStates = [false];
   late UserViewModel _userViewModel;
   late LikeViewModel _likeViewModel;
+  late GetPrevNextWorkContentViewModel _getPrevNextWorkContentViewModel;
+
+  List<WorkContent?> _prevNextWorkContents = [null, null];
 
   @override
   void initState() {
     super.initState();
     _userViewModel = ref.read(userViewModelProvider.notifier);
     _likeViewModel = ref.read(likeViewModelProvider.notifier);
+    _getPrevNextWorkContentViewModel =
+        ref.read(getPrevNextWorkContentViewModelProvider.notifier);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final userId = _userViewModel.currentUid;
       if (userId != null) {
         _likeViewModel.checkLike(userId, widget.workContent.contentDetailId);
       }
+      _getPrevNextWorkContentViewModel
+          .getPrevNextWorkContent(widget.workContent);
     });
   }
 
@@ -55,6 +65,13 @@ class _NovelReadingTopToolbar extends ConsumerState<NovelReadingBottomToolbar> {
         success: (data) => data == null ? _likeStates : [data],
         error: (e) => _likeStates);
 
+    _prevNextWorkContents = ref
+        .watch(getPrevNextWorkContentViewModelProvider)
+        .when(
+            loading: () => _prevNextWorkContents,
+            success: (data) => data ?? _prevNextWorkContents,
+            error: (e) => _prevNextWorkContents);
+
     return Container(
       color: Colors.black54,
       padding: EdgeInsets.symmetric(vertical: 8.0),
@@ -62,11 +79,20 @@ class _NovelReadingTopToolbar extends ConsumerState<NovelReadingBottomToolbar> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           IconButton(
-            icon: Icon(Icons.arrow_back, color: defaultColor),
-            onPressed: () {
-              // 이전 화로 이동
-            },
-          ),
+              icon: Icon(Icons.arrow_back),
+              color: defaultColor,
+              disabledColor: Colors.grey,
+              onPressed: _prevNextWorkContents[0] == null
+                  ? null
+                  : () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => NovelReadingScreen(
+                              workContent: _prevNextWorkContents[0]!),
+                        ),
+                      );
+                    }),
           ToggleButtons(
             isSelected: _likeStates,
             renderBorder: false,
@@ -80,7 +106,8 @@ class _NovelReadingTopToolbar extends ConsumerState<NovelReadingBottomToolbar> {
                 _likeViewModel.toggleLike(Like(
                     likeId: uuid.v4(),
                     userId: userId,
-                    workContentType: widget.workContent is Episode ? "episode" : "notice",
+                    workContentType:
+                        widget.workContent is Episode ? "episode" : "notice",
                     contentDetailId: widget.workContent.contentDetailId,
                     workId: widget.workContent.workId));
               }
@@ -100,10 +127,20 @@ class _NovelReadingTopToolbar extends ConsumerState<NovelReadingBottomToolbar> {
             },
           ),
           IconButton(
-            icon: Icon(Icons.arrow_forward, color: defaultColor),
-            onPressed: () {
-              // 다음 화로 이동
-            },
+            icon: Icon(Icons.arrow_forward),
+            color: defaultColor,
+            disabledColor: Colors.grey,
+            onPressed: _prevNextWorkContents[1] == null
+                ? null
+                : () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => NovelReadingScreen(
+                            workContent: _prevNextWorkContents[1]!),
+                      ),
+                    );
+                  },
           ),
         ],
       ),

@@ -7,4 +7,5 @@ abstract interface class EpisodeRepository {
   Future<void> deleteEpisode(Episode episode);
   Future<void> updateEpisode(Episode episode);
   Future<List<Episode>> getEpisodesbyWorkId(String workId);
+  Future<List<Episode?>> getPrevNextEpisodes(Episode episode);
 }

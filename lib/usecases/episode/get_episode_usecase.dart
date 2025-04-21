@@ -7,5 +7,9 @@ class GetEpisodeUsecase {
 
   Future<List<Episode>> execute(String workId) async {
     return episodeRepository.getEpisodesbyWorkId(workId);
-  } 
+  }
+
+  Future<List<Episode?>> getPrevNextEpisodes(Episode episode) async {
+    return episodeRepository.getPrevNextEpisodes(episode);
+  }
 }

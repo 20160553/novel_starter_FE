@@ -8,4 +8,7 @@ class GetNoticeUsecase {
   Future<List<Notice>> execute(String workId) async {
     return noticeRepository.getNoticesByWorkId(workId);
   } 
+  Future<List<Notice?>> getPrevNextNotices(Notice notice) async {
+    return noticeRepository.getPrevNextNotices(notice);
+  }
 }

@@ -46,7 +46,7 @@ class NoticeRepositoryFirestore implements NoticeRepository {
   Future<List<Notice>> getNoticesByWorkId(String workId) async {
     List<Notice> notices = [];
     try {
-      await _noticeRef.where("workId", isEqualTo: workId).get().then(
+      await _noticeRef.where("workId", isEqualTo: workId).orderBy('createdAt', descending: true).get().then(
         (querySnapshot) {
           for (var docSnapshot in querySnapshot.docs) {
             notices.add(Notice.fromJson(docSnapshot.data()));
@@ -64,5 +64,36 @@ class NoticeRepositoryFirestore implements NoticeRepository {
   Future<void> updateNotice(Notice notice) async {
     // TODO: implement updateNotice
     throw UnimplementedError();
+  }
+  
+  @override
+  Future<List<Notice?>> getPrevNextNotices(Notice notice) async {
+    Notice? prev, next;
+    final q = _noticeRef
+        .where("workId", isEqualTo: notice.workId)
+        .orderBy('createdAt');
+    try {
+      await q.endBefore([notice.createdAt.toIso8601String()]).get().then(
+            (querySnapshot) {
+              if (querySnapshot.docs.isNotEmpty) {
+                prev = Notice.fromJson(querySnapshot.docs[0].data());
+              }
+            },
+            onError: (e) => logger.e("Logger $e"),
+          );
+      await q.startAfter([notice.createdAt.toIso8601String()])
+          .get()
+          .then(
+            (querySnapshot) {
+              if (querySnapshot.docs.isNotEmpty) {
+                next = Notice.fromJson(querySnapshot.docs[0].data());
+              }
+            },
+            onError: (e) => logger.e("Logger $e"),
+          );
+    } catch (e) {
+      rethrow;
+    }
+    return [prev, next];
   }
 }

@@ -6,9 +6,9 @@ import 'package:novel_starter/repositories/work_content_detail_repository.dart';
 import 'package:novel_starter/utils/utils.dart';
 
 class EpisodeRepositoryFirestore implements EpisodeRepository {
-  EpisodeRepositoryFirestore(this._firestore, {
-    required WorkContentDetailRepository workContentDetailReposiotry
-  }): _workContentDetailReposiotry = workContentDetailReposiotry;
+  EpisodeRepositoryFirestore(this._firestore,
+      {required WorkContentDetailRepository workContentDetailReposiotry})
+      : _workContentDetailReposiotry = workContentDetailReposiotry;
 
   WorkContentDetailRepository _workContentDetailReposiotry;
 
@@ -25,14 +25,12 @@ class EpisodeRepositoryFirestore implements EpisodeRepository {
   }
 
   @override
-  Future<void> createEpisodeAndDetail(Episode episode, WorkContentDetail workContentDetail) async {
+  Future<void> createEpisodeAndDetail(
+      Episode episode, WorkContentDetail workContentDetail) async {
     _firestore.runTransaction((transaction) async {
       createEpisode(episode);
       _workContentDetailReposiotry.createWorkContentDetail(workContentDetail);
-    }).then((value) {
-      
-    }, 
-    onError: (e) {
+    }).then((value) {}, onError: (e) {
       throw e;
     });
   }
@@ -53,7 +51,11 @@ class EpisodeRepositoryFirestore implements EpisodeRepository {
   Future<List<Episode>> getEpisodesbyWorkId(String workId) async {
     List<Episode> episodes = [];
     try {
-      await _episodeRef.where("workId", isEqualTo: workId).get().then(
+      await _episodeRef
+          .where("workId", isEqualTo: workId)
+          .orderBy('createdAt', descending: true)
+          .get()
+          .then(
         (querySnapshot) {
           for (var docSnapshot in querySnapshot.docs) {
             episodes.add(Episode.fromJson(docSnapshot.data()));
@@ -67,4 +69,34 @@ class EpisodeRepositoryFirestore implements EpisodeRepository {
     return episodes;
   }
 
+  @override
+  Future<List<Episode?>> getPrevNextEpisodes(Episode episode) async {
+    Episode? prev, next;
+    final q = _episodeRef
+        .where("workId", isEqualTo: episode.workId)
+        .orderBy('createdAt');
+    try {
+      await q.endBefore([episode.createdAt.toIso8601String()]).get().then(
+            (querySnapshot) {
+              if (querySnapshot.docs.isNotEmpty) {
+                prev = Episode.fromJson(querySnapshot.docs[0].data());
+              }
+            },
+            onError: (e) => logger.e("Logger $e"),
+          );
+      await q.startAfter([episode.createdAt.toIso8601String()])
+          .get()
+          .then(
+            (querySnapshot) {
+              if (querySnapshot.docs.isNotEmpty) {
+                next = Episode.fromJson(querySnapshot.docs[0].data());
+              }
+            },
+            onError: (e) => logger.e("Logger $e"),
+          );
+    } catch (e) {
+      rethrow;
+    }
+    return [prev, next];
+  }
 }

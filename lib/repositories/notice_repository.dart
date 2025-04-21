@@ -7,4 +7,5 @@ abstract interface class NoticeRepository {
   Future<void> deleteNotice(Notice notice);
   Future<void> updateNotice(Notice notice);
   Future<List<Notice>> getNoticesByWorkId(String workId);
+  Future<List<Notice?>> getPrevNextNotices(Notice episode);
 }

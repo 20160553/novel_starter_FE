@@ -13,7 +13,6 @@ class WorkContentListTile extends StatelessWidget {
       title: Text(workContent.title),
       leading: workContent is Episode ? Icon(Icons.menu_book): Icon(Icons.announcement),
       onTap: () {
-        // 특정 회차로 이동하는 코드 구현
         Navigator.push(
           context,
           MaterialPageRoute(
