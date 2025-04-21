@@ -40,7 +40,7 @@ class _NovelReadingTopToolbar extends ConsumerState<NovelReadingBottomToolbar> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final userId = _userViewModel.currentUid;
       if (userId != null) {
-        _likeViewModel.checkLike(userId, widget.workContent.workId);
+        _likeViewModel.checkLike(userId, widget.workContent.contentDetailId);
       }
     });
   }
@@ -80,6 +80,8 @@ class _NovelReadingTopToolbar extends ConsumerState<NovelReadingBottomToolbar> {
                 _likeViewModel.toggleLike(Like(
                     likeId: uuid.v4(),
                     userId: userId,
+                    workContentType: widget.workContent is Episode ? "episode" : "notice",
+                    contentDetailId: widget.workContent.contentDetailId,
                     workId: widget.workContent.workId));
               }
             },

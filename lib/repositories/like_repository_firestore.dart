@@ -6,15 +6,15 @@ class LikeRepositoryFirestore implements LikeRepository {
   LikeRepositoryFirestore(this._firestore);
 
   final FirebaseFirestore _firestore;
-  late final _likeRef = _firestore.collection('like');
+  late final _likeRef = _firestore.collection('likes');
 
   @override
-  Future<bool> checkLike(String userId, String workId) async {
+  Future<bool> checkLike(String userId, String contentDetailId) async {
     bool result = false;
     try {
       final snapshot = await _likeRef
           .where("userId", isEqualTo: userId)
-          .where("workId", isEqualTo: workId)
+          .where("contentDetailId", isEqualTo: contentDetailId)
           .count()
           .get();
 
@@ -29,7 +29,7 @@ class LikeRepositoryFirestore implements LikeRepository {
   Future<bool> toggleLike(Like like) async {
     final query = _likeRef
         .where("userId", isEqualTo: like.userId)
-        .where("workId", isEqualTo: like.workId);
+        .where("contentDetailId", isEqualTo: like.contentDetailId);
     bool result = false;
     try {
       await query.get().then((querySnapShot) {

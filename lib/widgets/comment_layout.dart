@@ -78,82 +78,86 @@ class _CommentLayout extends ConsumerState<CommentLayout> {
                 updatedAt) =>
             noticeId);
     return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            CommentWritingLayout((content) {
-              final now = DateTime.now();
-              _createCommentViewModel.createComment(Comment(
-                comment: content,
-                commentId: uuid.v4(),
-                createdAt: now,
-                updatedAt: now,
-                userId: _userViewModel.currentUid!,
-                workContentId: workContentId,
-                workContentType:
-                    widget.workContent is Episode ? "episode" : "notice",
-                workId: widget.workContent.workId,
-              ));
-            }),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                GestureDetector(
-                    onTap: () => _getCommentsViewModel.changeCommentsMode(
-                        RegistrationOrder(), workContentId,
-                        userId: _userViewModel.currentUid!),
-                    child: Text(
-                      "등록순",
-                      style: TextStyle(
-                          fontWeight: _getCommentsViewModel.commentsSortMode
-                                  is RegistrationOrder
-                              ? FontWeight.bold
-                              : FontWeight.normal),
-                    )),
-                GestureDetector(
-                    onTap: () => _getCommentsViewModel.changeCommentsMode(
-                        LatestOrder(), workContentId,
-                        userId: _userViewModel.currentUid!),
-                    child: Text(
-                      "조회순",
-                      style: TextStyle(
-                          fontWeight: _getCommentsViewModel.commentsSortMode
-                                  is LatestOrder
-                              ? FontWeight.bold
-                              : FontWeight.normal),
-                    )),
-                GestureDetector(
-                    onTap: () => _getCommentsViewModel.changeCommentsMode(
-                        RecommendationOrder(), workContentId,
-                        userId: _userViewModel.currentUid!),
-                    child: Text(
-                      "추천순",
-                      style: TextStyle(
-                          fontWeight: _getCommentsViewModel.commentsSortMode
-                                  is RecommendationOrder
-                              ? FontWeight.bold
-                              : FontWeight.normal),
-                    )),
-                GestureDetector(
-                    onTap: () => _getCommentsViewModel.changeCommentsMode(
-                        MyCommentOrder(), workContentId,
-                        userId: _userViewModel.currentUid!),
-                    child: Text(
-                      "내댓순",
-                      style: TextStyle(
-                          fontWeight: _getCommentsViewModel.commentsSortMode
-                                  is MyCommentOrder
-                              ? FontWeight.bold
-                              : FontWeight.normal),
-                    )),
-              ],
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            CommentListView(_comments),
-          ],
+      child: Container(
+        color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              CommentWritingLayout((content) {
+                final now = DateTime.now();
+                _createCommentViewModel.createComment(Comment(
+                  comment: content,
+                  commentId: uuid.v4(),
+                  createdAt: now,
+                  updatedAt: now,
+                  userId: _userViewModel.currentUid!,
+                  workContentId: workContentId,
+                  workContentType:
+                      widget.workContent is Episode ? "episode" : "notice",
+                  workId: widget.workContent.workId,
+                ));
+              }),
+              SizedBox(height: 16,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GestureDetector(
+                      onTap: () => _getCommentsViewModel.changeCommentsMode(
+                          RegistrationOrder(), workContentId,
+                          userId: _userViewModel.currentUid!),
+                      child: Text(
+                        "등록순",
+                        style: TextStyle(
+                            fontWeight: _getCommentsViewModel.commentsSortMode
+                                    is RegistrationOrder
+                                ? FontWeight.bold
+                                : FontWeight.normal),
+                      )),
+                  GestureDetector(
+                      onTap: () => _getCommentsViewModel.changeCommentsMode(
+                          LatestOrder(), workContentId,
+                          userId: _userViewModel.currentUid!),
+                      child: Text(
+                        "조회순",
+                        style: TextStyle(
+                            fontWeight: _getCommentsViewModel.commentsSortMode
+                                    is LatestOrder
+                                ? FontWeight.bold
+                                : FontWeight.normal),
+                      )),
+                  GestureDetector(
+                      onTap: () => _getCommentsViewModel.changeCommentsMode(
+                          RecommendationOrder(), workContentId,
+                          userId: _userViewModel.currentUid!),
+                      child: Text(
+                        "추천순",
+                        style: TextStyle(
+                            fontWeight: _getCommentsViewModel.commentsSortMode
+                                    is RecommendationOrder
+                                ? FontWeight.bold
+                                : FontWeight.normal),
+                      )),
+                  GestureDetector(
+                      onTap: () => _getCommentsViewModel.changeCommentsMode(
+                          MyCommentOrder(), workContentId,
+                          userId: _userViewModel.currentUid!),
+                      child: Text(
+                        "내댓순",
+                        style: TextStyle(
+                            fontWeight: _getCommentsViewModel.commentsSortMode
+                                    is MyCommentOrder
+                                ? FontWeight.bold
+                                : FontWeight.normal),
+                      )),
+                ],
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              CommentListView(_comments),
+            ],
+          ),
         ),
       ),
     );

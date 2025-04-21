@@ -9,6 +9,8 @@ class Like with _$Like {
   factory Like({
     required String userId,
     required String workId,
+    required String workContentType,
+    required String contentDetailId,
     required String likeId,
   }) = _Like;
 

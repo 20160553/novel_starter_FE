@@ -21,7 +21,7 @@ class UserViewModel extends StateNotifier<ApiState<User?>> {
     try {
       final user = await _loginUsecase.execute(email, password);
       state = ApiState.success(data: user);
-    } on Exception catch (e) {
+    } catch (e) {
       state = ApiState.error(error: e);
     }
   }

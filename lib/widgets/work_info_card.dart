@@ -79,15 +79,19 @@ class _WorkInfoCard extends ConsumerState<WorkInfoCard> {
                 style: TextStyle(fontSize: 18),
               ),
               Text(
+                '등록된 회차: ${work.episodeCount}',
+                style: TextStyle(fontSize: 18),
+              ),
+              Text(
                 '조회: 100만',
                 style: TextStyle(fontSize: 18),
               ),
               Text(
-                '추천: 100만',
+                '선호작: ${work.favoriteCount}',
                 style: TextStyle(fontSize: 18),
               ),
               Text(
-                '선호작: ${work.favoriteCount}',
+                '추천: ${work.likeCount}',
                 style: TextStyle(fontSize: 18),
               ),
             ],

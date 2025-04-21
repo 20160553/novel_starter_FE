@@ -13,14 +13,16 @@ class GetCommentsViewModel extends StateNotifier<ApiState<List<Comment>?>> {
   CommentSortMode _commentsSortMode = CommentSortMode.registration();
   CommentSortMode get commentsSortMode => _commentsSortMode;
 
+  String _userId = "default";
+
   void changeCommentsMode(CommentSortMode commentSortMode, String workContentId,
       {String userId = "default"}) {
     _commentsSortMode = commentSortMode;
-    getCommentsByWorkContentId(workContentId, userId: userId);
+    _userId = userId;
+    getCommentsByWorkContentId(workContentId);
   }
 
-  void getCommentsByWorkContentId(String workContentId,
-      {String userId = "default"}) {
+  void getCommentsByWorkContentId(String workContentId) {
     switch (_commentsSortMode) {
       case RegistrationOrder():
         getCommentsOrderByRegistration(workContentId);
@@ -29,7 +31,7 @@ class GetCommentsViewModel extends StateNotifier<ApiState<List<Comment>?>> {
       case RecommendationOrder():
         getCommentsOrderByRecommendation(workContentId);
       case MyCommentOrder():
-        getCommentsByUserId(workContentId, userId);
+        getCommentsByUserId(workContentId, _userId);
     }
   }
 

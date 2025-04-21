@@ -16,6 +16,8 @@ class Work with _$Work {
     // required int genreId,
     // required int ageId,
     @Default(0) int favoriteCount,
+    @Default(0) int episodeCount,
+    @Default(0) int likeCount,
     required DateTime createdAt,
     required DateTime updatedAt,
     required String workId,

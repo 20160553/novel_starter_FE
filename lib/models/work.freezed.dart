@@ -25,6 +25,8 @@ mixin _$Work {
       throw _privateConstructorUsedError; // required int genreId,
 // required int ageId,
   int get favoriteCount => throw _privateConstructorUsedError;
+  int get episodeCount => throw _privateConstructorUsedError;
+  int get likeCount => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime get updatedAt => throw _privateConstructorUsedError;
   String get workId => throw _privateConstructorUsedError;
@@ -49,6 +51,8 @@ abstract class $WorkCopyWith<$Res> {
       {String title,
       String description,
       int favoriteCount,
+      int episodeCount,
+      int likeCount,
       DateTime createdAt,
       DateTime updatedAt,
       String workId,
@@ -74,6 +78,8 @@ class _$WorkCopyWithImpl<$Res, $Val extends Work>
     Object? title = null,
     Object? description = null,
     Object? favoriteCount = null,
+    Object? episodeCount = null,
+    Object? likeCount = null,
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? workId = null,
@@ -92,6 +98,14 @@ class _$WorkCopyWithImpl<$Res, $Val extends Work>
       favoriteCount: null == favoriteCount
           ? _value.favoriteCount
           : favoriteCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      episodeCount: null == episodeCount
+          ? _value.episodeCount
+          : episodeCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      likeCount: null == likeCount
+          ? _value.likeCount
+          : likeCount // ignore: cast_nullable_to_non_nullable
               as int,
       createdAt: null == createdAt
           ? _value.createdAt
@@ -128,6 +142,8 @@ abstract class _$$WorkImplCopyWith<$Res> implements $WorkCopyWith<$Res> {
       {String title,
       String description,
       int favoriteCount,
+      int episodeCount,
+      int likeCount,
       DateTime createdAt,
       DateTime updatedAt,
       String workId,
@@ -150,6 +166,8 @@ class __$$WorkImplCopyWithImpl<$Res>
     Object? title = null,
     Object? description = null,
     Object? favoriteCount = null,
+    Object? episodeCount = null,
+    Object? likeCount = null,
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? workId = null,
@@ -168,6 +186,14 @@ class __$$WorkImplCopyWithImpl<$Res>
       favoriteCount: null == favoriteCount
           ? _value.favoriteCount
           : favoriteCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      episodeCount: null == episodeCount
+          ? _value.episodeCount
+          : episodeCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      likeCount: null == likeCount
+          ? _value.likeCount
+          : likeCount // ignore: cast_nullable_to_non_nullable
               as int,
       createdAt: null == createdAt
           ? _value.createdAt
@@ -200,6 +226,8 @@ class _$WorkImpl extends _Work {
       {required this.title,
       required this.description,
       this.favoriteCount = 0,
+      this.episodeCount = 0,
+      this.likeCount = 0,
       required this.createdAt,
       required this.updatedAt,
       required this.workId,
@@ -220,6 +248,12 @@ class _$WorkImpl extends _Work {
   @JsonKey()
   final int favoriteCount;
   @override
+  @JsonKey()
+  final int episodeCount;
+  @override
+  @JsonKey()
+  final int likeCount;
+  @override
   final DateTime createdAt;
   @override
   final DateTime updatedAt;
@@ -233,7 +267,7 @@ class _$WorkImpl extends _Work {
 
   @override
   String toString() {
-    return 'Work(title: $title, description: $description, favoriteCount: $favoriteCount, createdAt: $createdAt, updatedAt: $updatedAt, workId: $workId, userId: $userId, thumbnailImgUrl: $thumbnailImgUrl)';
+    return 'Work(title: $title, description: $description, favoriteCount: $favoriteCount, episodeCount: $episodeCount, likeCount: $likeCount, createdAt: $createdAt, updatedAt: $updatedAt, workId: $workId, userId: $userId, thumbnailImgUrl: $thumbnailImgUrl)';
   }
 
   @override
@@ -246,6 +280,10 @@ class _$WorkImpl extends _Work {
                 other.description == description) &&
             (identical(other.favoriteCount, favoriteCount) ||
                 other.favoriteCount == favoriteCount) &&
+            (identical(other.episodeCount, episodeCount) ||
+                other.episodeCount == episodeCount) &&
+            (identical(other.likeCount, likeCount) ||
+                other.likeCount == likeCount) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -258,8 +296,18 @@ class _$WorkImpl extends _Work {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, title, description,
-      favoriteCount, createdAt, updatedAt, workId, userId, thumbnailImgUrl);
+  int get hashCode => Object.hash(
+      runtimeType,
+      title,
+      description,
+      favoriteCount,
+      episodeCount,
+      likeCount,
+      createdAt,
+      updatedAt,
+      workId,
+      userId,
+      thumbnailImgUrl);
 
   /// Create a copy of Work
   /// with the given fields replaced by the non-null parameter values.
@@ -282,6 +330,8 @@ abstract class _Work extends Work {
       {required final String title,
       required final String description,
       final int favoriteCount,
+      final int episodeCount,
+      final int likeCount,
       required final DateTime createdAt,
       required final DateTime updatedAt,
       required final String workId,
@@ -298,6 +348,10 @@ abstract class _Work extends Work {
 // required int ageId,
   @override
   int get favoriteCount;
+  @override
+  int get episodeCount;
+  @override
+  int get likeCount;
   @override
   DateTime get createdAt;
   @override

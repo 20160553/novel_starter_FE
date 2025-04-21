@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:novel_starter/constants/string.dart';
+import 'package:novel_starter/models/api_state.dart';
 import 'package:novel_starter/providers/viewmodels/user_viewmodel_provider.dart';
 import 'package:novel_starter/screens/join_screen.dart';
 import 'package:novel_starter/viewmodels/user_viewmodel.dart';
@@ -16,8 +17,14 @@ class LoginScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     _userViewModel = ref.read(userViewModelProvider.notifier);
     ref.listen(userViewModelProvider, (prevState, newState) {
-      if (newState != null) {
-        Navigator.pop(context);
+      Navigator.pop(context);
+      if (newState is ErrorState) {
+        ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(loginFailString),
+                duration: Duration(seconds: 1),
+              ),
+            );
       }
     });
 
