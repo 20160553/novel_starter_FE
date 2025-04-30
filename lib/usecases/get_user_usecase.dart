@@ -9,4 +9,8 @@ class GetUserUseCase {
   Future<User> execute(String accessToken, int id) async {
     return repository.getUser(accessToken, id);
   }
+
+  Future<bool> checkNickname(String nickname) async {
+    return repository.checkNickname(nickname);
+  }
 }

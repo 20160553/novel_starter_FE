@@ -8,9 +8,11 @@ import 'package:novel_starter/utils/utils.dart';
 class UserRepositoryFirestore implements UserRepository {
   UserRepositoryFirestore(this._auth, this._firestore);
 
-  final FirebaseAuth _auth;
-  final FirebaseFirestore _firestore;
+  late final FirebaseAuth _auth;
+  late final FirebaseFirestore _firestore;
   final FlutterSecureStorage _storage = FlutterSecureStorage();
+
+  late final _userRef = _firestore.collection("users");
 
   @override
   Future<User> getUser(String accessToken, int id) {
@@ -24,22 +26,47 @@ class UserRepositoryFirestore implements UserRepository {
       final credential = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       final uid = credential.user!.uid;
-      final result = await _firestore.collection("users").doc(uid).get();
-      return User(uid: credential.user!.uid, email: result['email']);
-    } catch(e) {
+      final result = await _userRef.doc(uid).get();
+      return User.fromJson(result.data()!);
+    } catch (e) {
       logger.e("Logger $e");
       rethrow;
     }
   }
-  
+
   @override
   Future<void> logout() async {
     try {
       _auth.signOut();
-    } catch(e) {
+    } catch (e) {
       rethrow;
     }
   }
 
-  
+  @override
+  Future<bool> checkNickname(String nickname) async {
+    bool isDuplicated = false;
+
+    try {
+      final result =
+          await _userRef.where("nickname", isEqualTo: nickname).count().get();
+      isDuplicated = (result.count ?? 0) > 0;
+    } catch (e) {
+      rethrow;
+    }
+
+    return isDuplicated;
+  }
+
+  @override
+  Future<bool> deleteUser(User user) {
+    // TODO: implement deleteUser
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<User> updateUser(User user) {
+    // TODO: implement updateUser
+    throw UnimplementedError();
+  }
 }

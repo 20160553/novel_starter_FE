@@ -1,7 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:novel_starter/models/api_state.dart';
 import 'package:novel_starter/models/join_result.dart';
+import 'package:novel_starter/models/user.dart';
 import 'package:novel_starter/usecases/join_usecase.dart';
 import 'package:novel_starter/utils/utils.dart';
 
@@ -10,13 +11,13 @@ class JoinViewModel extends StateNotifier<ApiState<JoinResult?>> {
 
   final JoinUsecase _joinUsecase;
 
-  void join(String email, String password) async {
+  void join(User user, String password) async {
     state = ApiState.loading();
     try {
-      await _joinUsecase.execute(email, password);
+      await _joinUsecase.execute(user, password);
 
       state = ApiState.success(data: JoinResult.success());
-    } on FirebaseAuthException catch (e) {
+    } on firebase_auth.FirebaseAuthException catch (e) {
       logger.e("Logger $e");
       if (e.code == 'weak-password') {
         state = ApiState.error(error: e);

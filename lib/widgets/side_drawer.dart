@@ -30,7 +30,7 @@ class _SideDrawerState extends ConsumerState<SideDrawer> {
     apiState.when(
         loading: () {},
         success: (data) {
-          username = data?.email ?? default_username;
+          username = data?.nickname ?? default_username;
         },
         error: (e) {});
   }

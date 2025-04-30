@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:novel_starter/models/user.dart';
 import 'package:novel_starter/repositories/join_repository.dart';
 import 'package:novel_starter/clients/api_client.dart';
 
@@ -11,12 +11,10 @@ class JoinRepositoryImpl implements JoinRepository {
   final ApiClient apiService;
 
   @override
-  Stream<User?>? get authStateChanges => null;
-
-  @override
-  Future<void> join(String email, String password) async {
+  Future<void> join(User user, String password) async {
     Map<String, dynamic> requestBody = {
-      'email': email,
+      'email': user.email,
+      'nickname': user.nickname,
       'password': password
     };
 
@@ -28,7 +26,7 @@ class JoinRepositoryImpl implements JoinRepository {
   }
 
   @override
-  Future<bool> duplicatedCheck(String email) async {
+  Future<bool> checkEmailDuplicated(String email) async {
     try {
       final response =
           await apiService.get('/users/duplicated_check/$email');
@@ -37,6 +35,12 @@ class JoinRepositoryImpl implements JoinRepository {
     } catch(e) {
       rethrow;
     }
+  }
+  
+  @override
+  Future<bool> checkNickname(String nickname) {
+    // TODO: implement checkNickname
+    throw UnimplementedError();
   }
 
 }

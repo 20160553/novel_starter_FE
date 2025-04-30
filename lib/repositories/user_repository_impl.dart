@@ -30,7 +30,7 @@ class UserRepositoryImpl implements UserRepository {
       );
 
       Map<String, dynamic> decodedToken = JwtDecoder.decode(accessToken);
-      return User(uid: decodedToken['uid'], email: decodedToken['username']);
+      return User(uid: decodedToken['uid'], email: decodedToken['username'], nickname: "");
     } catch (e) {
       rethrow;
     }
@@ -45,6 +45,24 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<void> logout() {
     // TODO: implement logout
+    throw UnimplementedError();
+  }
+  
+  @override
+  Future<bool> checkNickname(String nickname) {
+    // TODO: implement checkNickname
+    throw UnimplementedError();
+  }
+  
+  @override
+  Future<bool> deleteUser(User user) {
+    // TODO: implement deleteUser
+    throw UnimplementedError();
+  }
+  
+  @override
+  Future<User> updateUser(User user) {
+    // TODO: implement updateUser
     throw UnimplementedError();
   }
 }

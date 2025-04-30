@@ -2,34 +2,44 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:novel_starter/repositories/join_repository.dart';
 import 'package:novel_starter/utils/utils.dart';
+import 'package:novel_starter/models/user.dart' as user_model;
 
 class JoinRepositoryFirestore implements JoinRepository {
   JoinRepositoryFirestore(this._auth, this._firestore);
 
   final FirebaseAuth _auth;
   final FirebaseFirestore _firestore;
+  late final _userRef = _firestore.collection('users');
 
   @override
   Stream<User?>? get authStateChanges => _auth.authStateChanges();
 
   @override
-  Future<bool> duplicatedCheck(String email) {
-    // TODO: implement duplicatedCheck
-    throw UnimplementedError();
+  Future<bool> checkEmailDuplicated(String email) async {
+    bool isDuplicated = false;
+
+    try {
+      final result =
+          await _userRef.where("email", isEqualTo: email).count().get();
+      isDuplicated = (result.count ?? 0) > 0;
+    } catch (e) {
+      rethrow;
+    }
+
+    return isDuplicated;
   }
 
   @override
-  Future<void> join(String email, String password) async {
+  Future<void> join(user_model.User user, String password) async {
     try {
       final result = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email,
+        email: user.email,
         password: password,
       );
       if (result.user != null) {
-        final user = <String, dynamic> {
-          "email": email
-        };
-        _firestore.collection('users').doc(result.user!.uid).set(user);
+        _userRef
+            .doc(result.user!.uid)
+            .set(user.copyWith(uid: result.user!.uid).toJson());
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -41,5 +51,20 @@ class JoinRepositoryFirestore implements JoinRepository {
     } catch (e) {
       rethrow;
     }
+  }
+
+  @override
+  Future<bool> checkNickname(String nickname) async {
+    bool isDuplicated = false;
+
+    try {
+      final result =
+          await _userRef.where("nickname", isEqualTo: nickname).count().get();
+      isDuplicated = (result.count ?? 0) > 0;
+    } catch (e) {
+      rethrow;
+    }
+
+    return isDuplicated;
   }
 }
