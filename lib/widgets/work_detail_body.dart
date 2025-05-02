@@ -51,7 +51,7 @@ class _WorkDetailBody extends ConsumerState<WorkDetailBody> {
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ),
-        ...notices.map((notice) => WorkContentListTile(workContent: notice)),
+        ...notices.map((notice) => WorkContentListTile(work: widget.work, workContent: notice)),
         Divider(),
         Padding(
           padding: const EdgeInsets.all(16.0),
@@ -60,7 +60,7 @@ class _WorkDetailBody extends ConsumerState<WorkDetailBody> {
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ),
-        ...episodes.map((episode) => WorkContentListTile(workContent: episode)),
+        ...episodes.map((episode) => WorkContentListTile(work: widget.work, workContent: episode)),
       ],
     );
   }

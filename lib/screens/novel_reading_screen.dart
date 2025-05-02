@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:novel_starter/models/favorite.dart';
+import 'package:novel_starter/models/work.dart';
 import 'package:novel_starter/models/work_content.dart';
 import 'package:novel_starter/models/work_content_detail.dart';
 import 'package:novel_starter/providers/viewmodels/favorite/favorite_viewmodel_provider.dart';
@@ -15,10 +16,13 @@ import 'package:novel_starter/viewmodels/user_viewmodel.dart';
 import 'package:novel_starter/widgets/comment_layout.dart';
 import 'package:novel_starter/widgets/novel_reading_bottom_toolbar.dart';
 import 'package:novel_starter/widgets/novel_reading_top_toolbar.dart';
+import 'package:novel_starter/widgets/work_detail_body.dart';
 
 class NovelReadingScreen extends ConsumerStatefulWidget {
-  const NovelReadingScreen({required this.workContent, super.key});
+  const NovelReadingScreen(
+      {required this.work, required this.workContent, super.key});
   final WorkContent workContent;
+  final Work work;
 
   @override
   ConsumerState<NovelReadingScreen> createState() => _NovelReadingScreenState();
@@ -27,6 +31,7 @@ class NovelReadingScreen extends ConsumerStatefulWidget {
 class _NovelReadingScreenState extends ConsumerState<NovelReadingScreen> {
   bool _showToolbar = false;
   bool _showComments = false;
+  bool _showWorkContents = false;
   Timer? _toolbarTimer;
 
   late GetWorkContentDetailViewmodel _getWorkContentDetailViewmodel;
@@ -39,8 +44,7 @@ class _NovelReadingScreenState extends ConsumerState<NovelReadingScreen> {
     _getWorkContentDetailViewmodel =
         ref.read(getWorkContentDetailViewmodelProvider.notifier);
     _userViewModel = ref.read(userViewModelProvider.notifier);
-    _toggleFavoriteViewModel =
-        ref.read(favoriteViewModelProvider.notifier);
+    _toggleFavoriteViewModel = ref.read(favoriteViewModelProvider.notifier);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _getWorkContentDetailViewmodel
           .getWorkContentDetailById(widget.workContent.contentDetailId);
@@ -63,9 +67,19 @@ class _NovelReadingScreenState extends ConsumerState<NovelReadingScreen> {
     }
   }
 
+  void _toggleWorkContents() {
+    _timerCancel();
+    setState(() {
+      _showComments = false;
+      _showWorkContents = !_showWorkContents;
+      _showToolbar = true;
+    });
+  }
+
   void _toggleComments() {
     _timerCancel();
     setState(() {
+      _showWorkContents = false;
       _showComments = !_showComments;
       _showToolbar = true;
     });
@@ -127,14 +141,22 @@ class _NovelReadingScreenState extends ConsumerState<NovelReadingScreen> {
               Column(
                 children: [
                   NovelReadingTopToolbar(
+                    _showWorkContents,
                     workContent: widget.workContent,
                     onToggleFavorite: () {
                       _toggleFavorite();
                     },
+                    onToggleWorkContentsLayout: () => _toggleWorkContents(),
                   ),
-                  _showComments ? CommentLayout(widget.workContent) : Spacer(),
+                  if (_showComments) CommentLayout(widget.workContent),
+                  if (_showWorkContents)
+                    Expanded(
+                        child: SingleChildScrollView(
+                            child: WorkDetailBody(work: widget.work))),
+                  if (!(_showComments || _showWorkContents)) Spacer(),
                   NovelReadingBottomToolbar(
                     _showComments,
+                    work: widget.work,
                     onCommentIconClicked: () => _toggleComments(),
                     workContent: widget.workContent,
                     onToggleLike: () {

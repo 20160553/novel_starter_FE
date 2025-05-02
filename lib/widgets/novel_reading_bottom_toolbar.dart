@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:novel_starter/models/like.dart';
+import 'package:novel_starter/models/work.dart';
 import 'package:novel_starter/models/work_content.dart';
 import 'package:novel_starter/providers/viewmodels/like/like_viewmodel_provider.dart';
 import 'package:novel_starter/providers/viewmodels/user_viewmodel_provider.dart';
@@ -14,12 +15,14 @@ import 'package:novel_starter/viewmodels/work_content/get_prev_next_work_content
 class NovelReadingBottomToolbar extends ConsumerStatefulWidget {
   const NovelReadingBottomToolbar(this.showComments,
       {super.key,
+      required this.work,
       required this.workContent,
       required this.onToggleLike,
       required this.onCommentIconClicked});
 
   final bool showComments;
   final WorkContent workContent;
+  final Work work;
   final void Function() onToggleLike;
   final void Function() onCommentIconClicked;
 
@@ -89,6 +92,7 @@ class _NovelReadingTopToolbar extends ConsumerState<NovelReadingBottomToolbar> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => NovelReadingScreen(
+                              work: widget.work,
                               workContent: _prevNextWorkContents[0]!),
                         ),
                       );
@@ -137,6 +141,7 @@ class _NovelReadingTopToolbar extends ConsumerState<NovelReadingBottomToolbar> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => NovelReadingScreen(
+                            work: widget.work,
                             workContent: _prevNextWorkContents[1]!),
                       ),
                     );

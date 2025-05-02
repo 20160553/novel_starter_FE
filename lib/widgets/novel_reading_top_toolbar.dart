@@ -8,10 +8,13 @@ import 'package:novel_starter/viewmodels/user_viewmodel.dart';
 
 class NovelReadingTopToolbar extends ConsumerStatefulWidget {
   const NovelReadingTopToolbar(
-      {super.key, required this.workContent, required this.onToggleFavorite});
+    this._showWorkContents,
+      {super.key, required this.workContent, required this.onToggleFavorite, required this.onToggleWorkContentsLayout});
 
+  final bool _showWorkContents;
   final WorkContent workContent;
   final void Function() onToggleFavorite;
+  final void Function() onToggleWorkContentsLayout;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
@@ -66,9 +69,9 @@ class _NovelReadingTopToolbar extends ConsumerState<NovelReadingTopToolbar> {
             ),
           ),
           IconButton(
-            icon: Icon(Icons.list, color: Colors.white),
+            icon: Icon(Icons.list, color: widget._showWorkContents ? selectedColor : defaultColor),
             onPressed: () {
-              // 회차 목록으로 이동
+              widget.onToggleWorkContentsLayout();
             },
           ),
           ToggleButtons(
