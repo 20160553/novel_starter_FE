@@ -46,6 +46,7 @@ class _JoinScreen extends ConsumerState<JoinScreen> {
   Widget build(BuildContext context) {
     bool isEmailAvailable = false;
     bool isNicknameAvailable = false;
+
     ref.listen(joinViewModelProvider, (prevState, newState) {
       if (newState is SuccessState) {
         final tempState = newState as SuccessState;
@@ -53,6 +54,7 @@ class _JoinScreen extends ConsumerState<JoinScreen> {
           final data = tempState.data as JoinResult;
           data.when(duplicated: () {
             showSnackBar(context, duplicatedEmailString, 1);
+            isEmailAvailable = false;
           }, unDuplicated: () {
             showSnackBar(context, availableEmailString, 1);
             isEmailAvailable = true;
@@ -75,6 +77,7 @@ class _JoinScreen extends ConsumerState<JoinScreen> {
         late String snackBarString;
         if (state.data ?? true) {
           snackBarString = unavailableNicknameString;
+          isNicknameAvailable = false;
         } else {
           snackBarString = availableNicknameString;
           isNicknameAvailable = true;

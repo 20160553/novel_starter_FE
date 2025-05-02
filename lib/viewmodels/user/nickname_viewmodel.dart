@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:novel_starter/models/api_state.dart';
 import 'package:novel_starter/usecases/get_user_usecase.dart';
+import 'package:novel_starter/utils/utils.dart';
 
 ///SuccessState's data :
 /// - null : not initialized
@@ -20,6 +21,7 @@ class NicknameViewModel extends StateNotifier<ApiState<bool?>>{
       state = ApiState.success(data: result);
     } catch(e) {
       state = ApiState.error(error: e);
+      logger.e(e);
     }
   }
 }

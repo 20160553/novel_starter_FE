@@ -12,9 +12,6 @@ class JoinRepositoryFirestore implements JoinRepository {
   late final _userRef = _firestore.collection('users');
 
   @override
-  Stream<User?>? get authStateChanges => _auth.authStateChanges();
-
-  @override
   Future<bool> checkEmailDuplicated(String email) async {
     bool isDuplicated = false;
 
@@ -32,7 +29,7 @@ class JoinRepositoryFirestore implements JoinRepository {
   @override
   Future<void> join(user_model.User user, String password) async {
     try {
-      final result = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      final result = await _auth.createUserWithEmailAndPassword(
         email: user.email,
         password: password,
       );

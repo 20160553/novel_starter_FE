@@ -3,7 +3,6 @@ import 'package:novel_starter/constants/integer.dart';
 import 'package:novel_starter/models/api_state.dart';
 import 'package:novel_starter/models/work.dart';
 import 'package:novel_starter/usecases/work/get_work_usecase.dart';
-import 'package:novel_starter/utils/utils.dart';
 
 class GetWorksViewModel extends StateNotifier<ApiState<List<Work>?>> {
   GetWorksViewModel(this._getWorkUsecase) : super(ApiState.success(data: null));
@@ -19,7 +18,7 @@ class GetWorksViewModel extends StateNotifier<ApiState<List<Work>?>> {
     getWorksSortedByTime(true);
   }
 
-  void getWorksSortedByTime(bool refreshFlag) async {
+  Future<void> getWorksSortedByTime(bool refreshFlag) async {
     List<Work> prevWorks = state.when(
         loading: () => [],
         success: (data) => refreshFlag || data == null ? [] : [...data],
@@ -34,7 +33,6 @@ class GetWorksViewModel extends StateNotifier<ApiState<List<Work>?>> {
       _isLast = data.length < LIST_CALL_SIZE;
     } catch (e) {
       state = ApiState.error(error: e);
-      logger.e(e);
     }
   }
 }

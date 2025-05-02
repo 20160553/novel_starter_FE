@@ -40,9 +40,8 @@ class JoinViewModel extends StateNotifier<ApiState<JoinResult?>> {
       JoinResult data =
           result ? JoinResult.duplicated() : JoinResult.unDuplicated();
       state = ApiState.success(data: data);
-    } on Exception catch (e) {
+    }  catch (e) {
       state = ApiState.error(error: e);
-    } catch (e) {
       logger.e(e);
     }
   }
